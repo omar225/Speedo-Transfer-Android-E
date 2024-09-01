@@ -120,111 +120,6 @@ fun SignIn(modifier: Modifier = Modifier) {
 
 }
 
-@Composable
-fun TextFields(
-    inputText: String,
-    inputTextField: String,
-    image: Int,
-    modifier: Modifier = Modifier
-) {
-    var input by remember {
-        mutableStateOf("")
-    }
-    Text(
-        text = inputText,
-        style = AppTypography.bodyLarge,
-        modifier = modifier.padding(top = 12.dp)
-    )
-    OutlinedTextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 12.dp),
-        value = input,
-        onValueChange = { input = it },
-        textStyle = AppTypography.bodySmall,
-        shape = RoundedCornerShape(4.dp),
-        singleLine = true,
-        placeholder = { Text(text = inputTextField, color = G70) } ,
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = G700,
-            unfocusedTextColor = G700,
-            focusedContainerColor = G10,
-            unfocusedContainerColor = G10,
-            focusedIndicatorColor = G700,
-            unfocusedIndicatorColor = G70,
-            focusedTrailingIconColor = G700,
-            unfocusedTrailingIconColor = G70,
-            errorIndicatorColor = D300,
-            errorTrailingIconColor = D300,
-            cursorColor = G700
-        ),
-        trailingIcon = {
-            IconButton(onClick = { }) {
-                Icon(
-                    painter = painterResource(id = image),
-                    contentDescription = "",
-                    modifier = modifier.size(25.dp)
-                )
-            }
-
-        }
-    )
-}
-
-@Composable
-fun PasswordTextFields(inputText: String, inputTextField: String, modifier: Modifier = Modifier) {
-    var passwordField by remember {
-        mutableStateOf("")
-    }
-
-    var isPasswordShown by remember {
-        mutableStateOf(true)
-    }
-    Text(
-        text = inputText,
-        style = AppTypography.bodyLarge,
-        modifier = modifier.padding(top = 12.dp)
-    )
-    OutlinedTextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 12.dp),
-        value = passwordField,
-        onValueChange = { passwordField = it },
-        textStyle = AppTypography.bodySmall,
-        shape = RoundedCornerShape(4.dp),
-        singleLine = true,
-        placeholder = { Text(text = inputTextField, color = G70) },
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = G700,
-            unfocusedTextColor = G700,
-            focusedContainerColor = G10,
-            unfocusedContainerColor = G10,
-            focusedIndicatorColor = G700,
-            unfocusedIndicatorColor = G70,
-            focusedTrailingIconColor = G700,
-            unfocusedTrailingIconColor = G70,
-            cursorColor = G700,
-            errorIndicatorColor = D300,
-            errorTrailingIconColor = D300,
-        ),
-        visualTransformation = if (isPasswordShown)  PasswordVisualTransformation('*') else VisualTransformation.None,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        trailingIcon = {
-            val image = if (isPasswordShown)R.drawable.eye_comp_1  else R.drawable.eye_comp
-            IconButton(onClick = {
-                isPasswordShown = !isPasswordShown
-            }) {
-                Icon(
-                    painter = painterResource(id = image),
-                    contentDescription = "",
-                    modifier = modifier.size(25.dp)
-                )
-            }
-
-        }
-    )
-}
 
 @Composable
 fun SignInFields(modifier: Modifier) {
@@ -344,6 +239,5 @@ fun TimeOut(modifier: Modifier = Modifier) {
 @Composable
 fun SignUpPreview() {
     SignIn()
-    TimeOut()
 }
 
