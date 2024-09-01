@@ -246,21 +246,22 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
                 )
             ), contentAlignment = Alignment.Center
     ) {
+        IconButton(onClick = { /*TODO*/ }, modifier = modifier.align(Alignment.TopStart)) {
+            Icon(
+                painter = painterResource(id = R.drawable.drop_down),
+                contentDescription = "back button",
+                modifier = modifier.size(24.dp)
+            )
+
+        }
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(start = 16.dp, end = 16.dp,top = 32.dp)
         ) {
 
 
-            Text(
-                text = "Sign Up",
-                textAlign = TextAlign.Center,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp),
-                style = AppTypography.titleSemiBold
-            )
+
             Text(
                 text = "Speedo Transfer",
                 textAlign = TextAlign.Center,
@@ -334,5 +335,5 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    OnBoardingScreenOne()
+    SecondSignUp()
 }

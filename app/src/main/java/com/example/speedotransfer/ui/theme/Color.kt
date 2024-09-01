@@ -57,3 +57,5 @@ val D300 = Color(0xFFff002e)
 //Extra
 val Login= Color(0xFFffeaee)
 val Home=Color(0xFFfff8e7)
+val DarkGreen = Color(0xFF048109)
+val LightGreen = Color(0xFFC0F1C1)
