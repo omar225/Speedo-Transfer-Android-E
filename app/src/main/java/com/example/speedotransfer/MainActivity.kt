@@ -71,7 +71,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SpeedoTransferTheme {
-                SignUp()
             }
         }
     }

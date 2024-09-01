@@ -55,4 +55,4 @@ val D300 = Color(0xFFff002e)
 
 
 //Extra
-val Login= Color(0xFFffeaee)
+val Login= Color(0xFFFFEAEE)
