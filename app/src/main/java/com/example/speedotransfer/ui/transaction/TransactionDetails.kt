@@ -1,4 +1,4 @@
-package com.example.speedotransfer
+package com.example.speedotransfer.ui.transaction
 
 
 import androidx.compose.foundation.Image
@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.speedotransfer.R
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G100
 import com.example.speedotransfer.ui.theme.G200

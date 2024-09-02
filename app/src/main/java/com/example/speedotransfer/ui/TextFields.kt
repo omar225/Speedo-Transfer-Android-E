@@ -1,4 +1,4 @@
-package com.example.speedotransfer
+package com.example.speedotransfer.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.speedotransfer.R
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.D300
 import com.example.speedotransfer.ui.theme.G10
@@ -118,7 +119,7 @@ fun PasswordTextFields(inputText: String, inputTextField: String, modifier: Modi
         visualTransformation = if (isPasswordShown)  PasswordVisualTransformation('*') else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         trailingIcon = {
-            val image = if (isPasswordShown)R.drawable.eye_comp_1  else R.drawable.eye_comp
+            val image = if (isPasswordShown) R.drawable.eye_comp_1 else R.drawable.eye_comp
             IconButton(onClick = {
                 isPasswordShown = !isPasswordShown
             }) {

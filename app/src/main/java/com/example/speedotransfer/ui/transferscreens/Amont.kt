@@ -1,10 +1,8 @@
-package com.example.speedotransfer
+package com.example.speedotransfer.ui.transferscreens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +38,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.speedotransfer.R
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
 import com.example.speedotransfer.ui.theme.G100

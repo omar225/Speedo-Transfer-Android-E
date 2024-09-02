@@ -1,4 +1,4 @@
-package com.example.speedotransfer
+package com.example.speedotransfer.ui.signinandup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,6 +27,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.speedotransfer.ui.PasswordTextFields
+import com.example.speedotransfer.R
+import com.example.speedotransfer.ui.TextFields
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
 import com.example.speedotransfer.ui.theme.G100

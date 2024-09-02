@@ -1,4 +1,4 @@
-package com.example.speedotransfer
+package com.example.speedotransfer.ui.onboardingscreens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.speedotransfer.R
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
 import com.example.speedotransfer.ui.theme.G400
