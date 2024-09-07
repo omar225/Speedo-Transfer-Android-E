@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
+import com.example.speedotransfer.ui.CountryPickerField
+import com.example.speedotransfer.ui.DatePickerField
 import com.example.speedotransfer.ui.TextFields
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
@@ -196,8 +198,8 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
                 style = AppTypography.bodyLarge,
                 color = G400
             )
-            TextFields("Country", "Select your country", R.drawable.chevron_down)
-            TextFields("Date of Birth", "DD/MM/YYY", R.drawable.date)
+            CountryPickerField("Country", "Select your country")
+            DatePickerField("Date of Birth", "DD/MM/YYY")
             Button(
                 onClick = { }, modifier = modifier
                     .fillMaxWidth()
@@ -245,6 +247,4 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
 @Composable
 fun LoginScreenPreview() {
     SecondSignUp()
-    Splash()
-    SignUp()
 }
