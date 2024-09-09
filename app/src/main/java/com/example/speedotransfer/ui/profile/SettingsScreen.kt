@@ -20,14 +20,18 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G900
 import com.example.speedotransfer.ui.theme.Home
 import com.example.speedotransfer.ui.theme.Login
 
 @Composable
-fun SettingsScreen(modifier: Modifier = Modifier) {
+fun SettingsScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val name = "Asmaa Dosuky"
     Box(
         Modifier
@@ -64,7 +68,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
                     contentDescription = "back icon",
                     tint = G900,
                     modifier = modifier
-                        .clickable { }
+                        .clickable {navController.navigate(Route.PROFILE) }
                         .size(24.dp)
                 )
 
@@ -82,13 +86,15 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
 
             Spacer(modifier = Modifier.padding(top = 16.dp))
 
-            OptionsItems(
+            OptionsItems(navController,
+                destination = Route.CHANGEPASSWORD,
                 leadingIcon = R.drawable.password_outline,
                 title = "Change password",
                 description = "Change Password"
             ) {}
 
-            OptionsItems(
+            OptionsItems(navController,
+                destination = Route.EDITPROFILE,
                 leadingIcon = R.drawable.edit,
                 title = "Edit profile",
                 description = "Change your information"
@@ -102,5 +108,5 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen()
+    SettingsScreen(rememberNavController())
 }

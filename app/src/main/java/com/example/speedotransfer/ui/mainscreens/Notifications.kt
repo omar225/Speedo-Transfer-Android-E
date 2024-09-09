@@ -26,7 +26,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G100
 import com.example.speedotransfer.ui.theme.G700
@@ -37,7 +40,7 @@ import com.example.speedotransfer.ui.theme.P50
 import com.example.speedotransfer.ui.theme.P75
 
 @Composable
-fun NotificationsScreen(modifier: Modifier = Modifier) {
+fun NotificationsScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -58,7 +61,7 @@ fun NotificationsScreen(modifier: Modifier = Modifier) {
             Row(modifier = modifier
                 .fillMaxWidth()
                 .padding(bottom = 20.dp)) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.navigate(Route.HOME)}) {
                     Icon(
                         painter = painterResource(id = R.drawable.drop_down),
                         contentDescription = "back button",
@@ -242,9 +245,3 @@ fun NotificationsScreen(modifier: Modifier = Modifier) {
 
 }
 
-@Preview(showSystemUi = true)
-@Composable
-private fun NotificationsScreenPreview() {
-    NotificationsScreen()
-
-}

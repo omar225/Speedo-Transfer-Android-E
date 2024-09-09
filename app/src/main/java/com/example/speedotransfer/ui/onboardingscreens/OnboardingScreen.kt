@@ -21,7 +21,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
 import com.example.speedotransfer.ui.theme.G400
@@ -29,7 +31,7 @@ import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 
 @Composable
-fun OnBoardingScreenOne(modifier: Modifier = Modifier) {
+fun OnBoardingScreenOne(navController: NavController,modifier: Modifier = Modifier) {
     Box(
         Modifier
             .fillMaxSize()
@@ -44,8 +46,8 @@ fun OnBoardingScreenOne(modifier: Modifier = Modifier) {
         Column(modifier = modifier
             .fillMaxSize().padding(horizontal = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
-            TextButton(onClick = { /*TODO*/ },modifier = modifier
-                .align(Alignment.End)) {
+            TextButton(onClick = { navController.navigate(Route.AUTH) },modifier = modifier
+                .align(Alignment.End).padding(top = 20.dp)) {
                 Text(text = "Skip", textAlign = TextAlign.End, color = G400)
 
             }
@@ -53,7 +55,7 @@ fun OnBoardingScreenOne(modifier: Modifier = Modifier) {
             Text(text = "Amont", style = AppTypography.h3)
             Text(text = "Send money fast with simple steps. Create account, Configuration, Payment, Simple", textAlign = TextAlign.Center, modifier = modifier.padding(16.dp))
             Button(
-                onClick = { }, modifier = modifier
+                onClick = { navController.navigate(Route.ONBOARDINGSCREEN2) }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
                     .height(50.dp),
@@ -67,7 +69,7 @@ fun OnBoardingScreenOne(modifier: Modifier = Modifier) {
     }
 }
 @Composable
-fun OnBoardingScreenTwo(modifier: Modifier = Modifier) {
+fun OnBoardingScreenTwo(navController: NavController,modifier: Modifier = Modifier) {
     Box(
         Modifier
             .fillMaxSize()
@@ -82,8 +84,8 @@ fun OnBoardingScreenTwo(modifier: Modifier = Modifier) {
         Column(modifier = modifier
             .fillMaxSize().padding(horizontal = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
-            TextButton(onClick = { /*TODO*/ },modifier = modifier
-                .align(Alignment.End)) {
+            TextButton(onClick = { navController.navigate(Route.AUTH) },modifier = modifier
+                .align(Alignment.End).padding(top = 20.dp)) {
                 Text(text = "Skip", textAlign = TextAlign.End, color = G400)
 
             }
@@ -91,7 +93,7 @@ fun OnBoardingScreenTwo(modifier: Modifier = Modifier) {
             Text(text = "Confirmation", style = AppTypography.h3)
             Text(text = "Transfer funds instantly to friends and family worldwide, strong shield protecting a money", textAlign = TextAlign.Center, modifier = modifier.padding(16.dp))
             Button(
-                onClick = { }, modifier = modifier
+                onClick = { navController.navigate(Route.ONBOARDINGSCREEN3) }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
                     .height(50.dp),
@@ -106,7 +108,7 @@ fun OnBoardingScreenTwo(modifier: Modifier = Modifier) {
 
 }
 @Composable
-fun OnBoardingScreenThree(modifier: Modifier = Modifier) {
+fun OnBoardingScreenThree(navController: NavController,modifier: Modifier = Modifier) {
     Box(
         Modifier
             .fillMaxSize()
@@ -121,8 +123,8 @@ fun OnBoardingScreenThree(modifier: Modifier = Modifier) {
         Column(modifier = modifier
             .fillMaxSize().padding(horizontal = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
-            TextButton(onClick = { /*TODO*/ },modifier = modifier
-                .align(Alignment.End)) {
+            TextButton(onClick = { navController.navigate(Route.AUTH) },modifier = modifier
+                .align(Alignment.End).padding(top = 20.dp)) {
                 Text(text = "Skip", textAlign = TextAlign.End, color = G400)
 
             }
@@ -130,7 +132,7 @@ fun OnBoardingScreenThree(modifier: Modifier = Modifier) {
             Text(text = "Payment", style = AppTypography.h3)
             Text(text = "Enjoy peace of mind with our secure platform Transfer funds instantly to friends.", textAlign = TextAlign.Center, modifier = modifier.padding(16.dp))
             Button(
-                onClick = { }, modifier = modifier
+                onClick = { navController.navigate(Route.AUTH)}, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
                     .height(50.dp),

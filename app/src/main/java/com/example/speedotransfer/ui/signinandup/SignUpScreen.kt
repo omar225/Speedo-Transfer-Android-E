@@ -24,11 +24,12 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.CountryPickerField
 import com.example.speedotransfer.ui.DatePickerField
 import com.example.speedotransfer.ui.TextFields
@@ -59,7 +60,7 @@ fun Splash(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SignUp(modifier: Modifier = Modifier) {
+fun SignUp(navController: NavController,modifier: Modifier = Modifier) {
 
     Box(
         Modifier
@@ -101,9 +102,10 @@ fun SignUp(modifier: Modifier = Modifier) {
             PasswordTextFields("Password", "Enter your password")
             PasswordTextFields("Confirm Password", "Enter your password")
             Button(
-                onClick = { }, modifier = modifier
+                onClick = { navController.navigate(route = Route.COMPLETEPROFILE)}, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
+
                     .height(50.dp),
                 shape = RoundedCornerShape(4.dp),
                 colors = ButtonDefaults.buttonColors(P300)
@@ -144,7 +146,7 @@ fun SignUp(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SecondSignUp(modifier: Modifier = Modifier) {
+fun SecondSignUp(navController: NavController,modifier: Modifier = Modifier) {
     Box(
         Modifier
             .fillMaxSize()
@@ -157,7 +159,7 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
                 )
             ), contentAlignment = Alignment.Center
     ) {
-        IconButton(onClick = { /*TODO*/ }, modifier = modifier.align(Alignment.TopStart)) {
+        IconButton(onClick = { navController.navigate(route = Route.SIGNUP)}, modifier = modifier.align(Alignment.TopStart)) {
             Icon(
                 painter = painterResource(id = R.drawable.drop_down),
                 contentDescription = "back button",
@@ -201,7 +203,7 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
             CountryPickerField("Country", "Select your country")
             DatePickerField("Date of Birth", "DD/MM/YYY")
             Button(
-                onClick = { }, modifier = modifier
+                onClick = { navController.navigate(route = Route.SIGNIN)}, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
                     .height(50.dp),
@@ -243,8 +245,3 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun LoginScreenPreview() {
-    SecondSignUp()
-}

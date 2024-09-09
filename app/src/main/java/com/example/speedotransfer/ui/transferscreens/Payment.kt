@@ -33,7 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G100
 import com.example.speedotransfer.ui.theme.G30
@@ -45,7 +48,7 @@ import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.S400
 
 @Composable
-fun PaymentScreen(modifier: Modifier = Modifier) {
+fun PaymentScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -60,7 +63,7 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
             )
     ) {
         Row(modifier = modifier.fillMaxWidth()) {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { navController.navigate(Route.CONFIRMATION) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.drop_down),
                     contentDescription = "back button",
@@ -220,7 +223,7 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
             modifier = modifier.padding(horizontal = 16.dp, vertical = 20.dp)
         )
         Button(
-            onClick = { }, modifier = modifier
+            onClick = {navController.navigate(Route.HOME) }, modifier = modifier
                 .fillMaxWidth()
                 .padding(start = 12.dp, end = 12.dp)
                 .height(50.dp),
@@ -229,7 +232,7 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
         ) {
             Text(text = "Back to Home ", style = AppTypography.button)
         }
-        TextButton(onClick = { /*TODO*/ },modifier = modifier
+        TextButton(onClick = { navController.navigate(Route.AMONT) },modifier = modifier
             .fillMaxWidth()
             .padding(top = 20.dp, start = 12.dp, end = 12.dp)
             .height(50.dp), border = BorderStroke(1.dp, P300),
@@ -241,8 +244,3 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-private fun PaymentPreview() {
-    PaymentScreen()
-}

@@ -24,7 +24,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.CountryPickerField
 import com.example.speedotransfer.ui.DatePickerField
 import com.example.speedotransfer.ui.TextFields
@@ -35,7 +39,7 @@ import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 
 @Composable
-fun EditProfileScreen(modifier: Modifier = Modifier) {
+fun EditProfileScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val name = "Asmaa Dosuky"
     Box(
         Modifier
@@ -72,7 +76,7 @@ fun EditProfileScreen(modifier: Modifier = Modifier) {
                     contentDescription = "back icon",
                     tint = G900,
                     modifier = modifier
-                        .clickable { }
+                        .clickable { navController.navigate(Route.SETTINGS)}
                         .size(24.dp)
                 )
 
@@ -93,7 +97,7 @@ fun EditProfileScreen(modifier: Modifier = Modifier) {
             CountryPickerField(inputText = "Country", inputTextField = "Select Country")
             DatePickerField(inputText = "Date Of Birth" , inputTextField = "DD/MM/YYYY")
             Button(
-                onClick = { }, modifier = modifier
+                onClick = {navController.navigate(Route.SETTINGS) }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp)
                     .height(50.dp),
@@ -110,5 +114,5 @@ fun EditProfileScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun EditProfileScreenPreview() {
-    EditProfileScreen()
+    EditProfileScreen(rememberNavController())
 }

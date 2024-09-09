@@ -27,7 +27,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G100
 import com.example.speedotransfer.ui.theme.G200
@@ -39,7 +42,7 @@ import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.S400
 
 @Composable
-fun TransactionDetailsScreen(modifier: Modifier = Modifier) {
+fun TransactionDetailsScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -54,7 +57,7 @@ fun TransactionDetailsScreen(modifier: Modifier = Modifier) {
             )
     ) {
         Row(modifier = modifier.fillMaxWidth()) {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { navController.navigate(Route.TRANSACTIONS) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.drop_down),
                     contentDescription = "back button",
@@ -234,8 +237,3 @@ fun TransactionDetailsScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-private fun TransactionDetailsScreenPreview() {
-    TransactionDetailsScreen()
-}

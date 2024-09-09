@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,7 +25,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.CountryPickerField
 import com.example.speedotransfer.ui.DatePickerField
 import com.example.speedotransfer.ui.PasswordTextFields
@@ -36,7 +41,7 @@ import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 
 @Composable
-fun ChangePasswordScreen(modifier: Modifier = Modifier) {
+fun ChangePasswordScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val name = "Asmaa Dosuky"
     Box(
         Modifier
@@ -68,14 +73,15 @@ fun ChangePasswordScreen(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(0.dp, 16.dp, 0.dp, 16.dp)
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.drop_down),
-                    contentDescription = "back icon",
-                    tint = G900,
-                    modifier = modifier
-                        .clickable { }
-                        .size(24.dp)
-                )
+                IconButton(onClick = { navController.navigate(Route.SETTINGS) }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.drop_down),
+                        contentDescription = "back icon",
+                        tint = G900,
+                        modifier = modifier
+                            .size(24.dp)
+                    )
+                }
 
                 Spacer(modifier = Modifier.weight(1f))
 
@@ -92,7 +98,7 @@ fun ChangePasswordScreen(modifier: Modifier = Modifier) {
             PasswordTextFields(inputText = "Current Password", inputTextField = "Enter your password")
             PasswordTextFields(inputText = "New Password", inputTextField = "Enter your password")
             Button(
-                onClick = { }, modifier = modifier
+                onClick = {navController.navigate(Route.SETTINGS) }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp)
                     .height(50.dp),
@@ -109,5 +115,5 @@ fun ChangePasswordScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun ChangePasswordScreenPreview() {
-    ChangePasswordScreen()
+    ChangePasswordScreen(rememberNavController())
 }

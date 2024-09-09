@@ -22,7 +22,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G100
 import com.example.speedotransfer.ui.theme.G200
@@ -32,7 +36,7 @@ import com.example.speedotransfer.ui.theme.Home
 import com.example.speedotransfer.ui.theme.Login
 
 @Composable
-fun ProfileInformationScreen(modifier: Modifier = Modifier) {
+fun ProfileInformationScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val name = "Asmaa Dosuky"
     Box(
         Modifier
@@ -69,7 +73,7 @@ fun ProfileInformationScreen(modifier: Modifier = Modifier) {
                     contentDescription = "back icon",
                     tint = G900,
                     modifier = modifier
-                        .clickable { }
+                        .clickable {navController.navigate(Route.PROFILE) }
                         .size(24.dp)
                 )
 
@@ -155,5 +159,5 @@ fun ProfileInfoItems(
 @Preview
 @Composable
 private fun ProfileInformationPreview() {
-    ProfileInformationScreen()
+    ProfileInformationScreen(rememberNavController())
 }

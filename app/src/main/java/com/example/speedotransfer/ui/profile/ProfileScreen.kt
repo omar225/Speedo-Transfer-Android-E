@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,7 +27,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G100
 import com.example.speedotransfer.ui.theme.G200
@@ -38,7 +44,7 @@ import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P50
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun ProfileScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val name = "Asmaa Dosuky"
     Box(
         Modifier
@@ -70,14 +76,16 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(0.dp, 16.dp, 0.dp, 16.dp)
             ) {
-                Icon(
+                IconButton (onClick = {navController.navigate(Route.MORE)}){
+                    Icon(
                     painter = painterResource(id = R.drawable.drop_down),
                     contentDescription = "back icon",
                     tint = G900,
                     modifier = modifier
                         .clickable { }
                         .size(24.dp)
-                )
+                    )
+                }
 
                 Spacer(modifier = Modifier.weight(1f))
 
@@ -109,27 +117,31 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             }
             Spacer(modifier = Modifier.padding(top = 16.dp))
 
-            OptionsItems(
+            OptionsItems(navController,
+                destination = Route.PROFILEINFORMATION,
                 leadingIcon = R.drawable.user,
                 title = "Personal Information",
                 description = "Your Information"
             ) {}
 
 
-            OptionsItems(
+            OptionsItems(navController,
+                destination = Route.SETTINGS,
                 leadingIcon = R.drawable.setting,
                 title = "Setting",
                 description = "Change your settings"
             ) {}
 
-            OptionsItems(
+            OptionsItems(navController,
+                destination = Route.TRANSACTIONS,
                 leadingIcon = R.drawable.history_1,
                 title = "Payment history",
                 description = "View your transactions"
             ) {}
 
 
-            OptionsItems(
+            OptionsItems(navController,
+                destination = Route.FAVOURITES,
                 leadingIcon = R.drawable.favorite,
                 title = "My Favourite list",
                 description = "View your favourites"
@@ -164,7 +176,7 @@ fun InitialsIcon(name: String) {
 }
 
 @Composable
-fun OptionsItems(
+fun OptionsItems(navController: NavController,destination: String,
     leadingIcon: Int,
     title: String,
     description: String,
@@ -212,14 +224,16 @@ fun OptionsItems(
             )
         }
 
-        Icon(
-            painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
-            contentDescription = "next",
-            modifier = Modifier
-                .size(24.dp),
-            tint = G200
+        IconButton(onClick ={navController.navigate(destination) }){
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
+                contentDescription = "next",
+                modifier = Modifier
+                    .size(24.dp),
+                tint = G200
 
-        )
+            )
+        }
 
     }
 
@@ -233,5 +247,5 @@ fun OptionsItems(
 @Preview(showSystemUi = true)
 @Composable
 private fun ProfileScreenPreview() {
-    ProfileScreen()
+    ProfileScreen(rememberNavController())
 }
