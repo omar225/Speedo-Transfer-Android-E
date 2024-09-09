@@ -38,7 +38,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
 import com.example.speedotransfer.ui.theme.G100
@@ -48,7 +51,7 @@ import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 
 @Composable
-fun AmontScreen(modifier: Modifier = Modifier) {
+fun AmontScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     var amountSent by rememberSaveable {
         mutableStateOf("")
     }
@@ -76,7 +79,7 @@ fun AmontScreen(modifier: Modifier = Modifier) {
             )
     ) {
         Row(modifier = modifier.fillMaxWidth()) {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { navController.navigate(Route.HOME) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.drop_down),
                     contentDescription = "back button",
@@ -165,35 +168,7 @@ fun AmontScreen(modifier: Modifier = Modifier) {
                         .padding(start = 50.dp)
                 )
             }
-            HorizontalDivider(
-                color = Color.LightGray,
-                thickness = 2.dp,
-                modifier = modifier.padding(horizontal = 16.dp, vertical = 20.dp)
-            )
 
-            Text(
-                text = "Recipient Gets",
-                modifier = modifier.padding( start = 12.dp),
-                style = AppTypography.bodyMedium,
-                color = G300
-            )
-            Row(modifier = modifier.padding(vertical = 16.dp)) {
-                Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color.White)) {
-                    Image(painter = painterResource(id = R.drawable.chevron_down) , contentDescription ="", modifier = modifier.size(30.dp) )
-
-                }
-                OutlinedTextField(
-                    colors = TextFieldDefaults.colors(focusedContainerColor = G0, unfocusedContainerColor = G0),
-                    value = amountReceived,
-                    onValueChange = { amountReceived = it },
-                    shape = RoundedCornerShape(4.dp),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .size(150.dp, 50.dp)
-                        .padding(start = 50.dp)
-                )
-            }
 
         }
         Row(
@@ -271,7 +246,7 @@ fun AmontScreen(modifier: Modifier = Modifier) {
         )
 
         Button(
-            onClick = { }, modifier = modifier
+            onClick = {navController.navigate(Route.CONFIRMATION) }, modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 12.dp)
                 .height(50.dp),
@@ -285,8 +260,3 @@ fun AmontScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-private fun Amont() {
-    AmontScreen()
-}

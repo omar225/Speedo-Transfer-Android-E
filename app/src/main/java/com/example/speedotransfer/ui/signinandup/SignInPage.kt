@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.TextFields
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
@@ -45,7 +46,7 @@ import com.example.speedotransfer.ui.theme.P300
 
 
 @Composable
-fun SignIn(modifier: Modifier = Modifier) {
+fun SignIn(navController: NavController,modifier: Modifier = Modifier) {
     Box(
         Modifier
             .fillMaxSize()
@@ -81,7 +82,7 @@ fun SignIn(modifier: Modifier = Modifier) {
                 style = AppTypography.h2
             )
 
-            SignInFields(modifier = modifier)
+            SignInFields(navController,modifier = modifier)
 
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -101,7 +102,7 @@ fun SignIn(modifier: Modifier = Modifier) {
                     color = P300,
                     modifier = modifier
                         .padding(start = 4.dp)
-                        .clickable { }
+                        .clickable { navController.navigate(route = Route.SIGNUP) }
 
                 )
             }
@@ -114,12 +115,14 @@ fun SignIn(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun SignInFields(modifier: Modifier) {
+fun SignInFields(navController: NavController,modifier: Modifier) {
     Column {
         TextFields("Email", "Enter your email address", R.drawable.email)
         PasswordTextFields("Password", "Enter your password")
         Button(
-            onClick = {}, modifier = modifier
+            onClick = { navController.navigate(Route.MAINAPP)
+
+            }, modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp)
                 .height(50.dp),
@@ -132,7 +135,7 @@ fun SignInFields(modifier: Modifier) {
 }
 
 @Composable
-fun TimeOut(modifier: Modifier = Modifier) {
+fun TimeOut(navController: NavController,modifier: Modifier = Modifier) {
     var showNotification by remember { mutableStateOf(true) }
 
     Box(
@@ -220,7 +223,7 @@ fun TimeOut(modifier: Modifier = Modifier) {
 
             }
 
-            SignInFields(modifier = modifier)
+            SignInFields(navController , modifier = modifier)
 
         }
     }
@@ -230,5 +233,6 @@ fun TimeOut(modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SignUpPreview() {
+    SignIn()
 }
 

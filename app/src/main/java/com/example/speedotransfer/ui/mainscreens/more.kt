@@ -36,7 +36,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
 import com.example.speedotransfer.ui.theme.G200
@@ -47,7 +51,7 @@ import com.example.speedotransfer.ui.theme.P50
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoreScreen(modifier: Modifier = Modifier) {
+fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,logout:()->Unit) {
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -131,10 +135,10 @@ fun MoreScreen(modifier: Modifier = Modifier) {
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
         ) {
             Row(modifier = modifier.fillMaxWidth()) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.navigate(Route.HOME)}) {
                     Icon(
                         painter = painterResource(id = R.drawable.drop_down),
                         contentDescription = "back button",
@@ -158,7 +162,7 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(top = 52.dp), horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Box() {
+                Box(modifier=modifier.align(Alignment.CenterVertically)) {
                     Icon(
                         painter = painterResource(id = R.drawable.website),
                         contentDescription = "back button",
@@ -174,13 +178,15 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                         color = G200
                     )
                 }
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
-                    contentDescription = "back button",
-                    modifier = modifier.size(24.dp),
-                    tint = G200,
+                IconButton(onClick = {  }){
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
+                        contentDescription = "back button",
+                        modifier = modifier.size(24.dp),
+                        tint = G200,
 
-                    )
+                        )
+                }
 
             }
             HorizontalDivider(
@@ -192,7 +198,7 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                 modifier = modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Box() {
+                Box(modifier=modifier.align(Alignment.CenterVertically)) {
                     Icon(
                         painter = painterResource(id = R.drawable.favorite),
                         contentDescription = "back button",
@@ -208,13 +214,15 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                         color = G200
                     )
                 }
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
-                    contentDescription = "back button",
-                    modifier = modifier.size(24.dp),
-                    tint = G200,
+                IconButton(onClick = { navController.navigate(Route.FAVOURITES) }){
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
+                        contentDescription = "Favourites",
+                        modifier = modifier.size(24.dp),
+                        tint = G200,
 
-                    )
+                        )
+                }
 
             }
             HorizontalDivider(
@@ -226,7 +234,7 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                 modifier = modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Box() {
+                Box(modifier=modifier.align(Alignment.CenterVertically)) {
                     Icon(
                         painter = painterResource(id = R.drawable.profile),
                         contentDescription = "back button",
@@ -242,13 +250,15 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                         color = G200
                     )
                 }
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
-                    contentDescription = "back button",
-                    modifier = modifier.size(24.dp),
-                    tint = G200,
+                IconButton(onClick = { navController.navigate(Route.PROFILE)}){
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
+                        contentDescription = "Profile",
+                        modifier = modifier.size(24.dp),
+                        tint = G200,
 
-                    )
+                        )
+                }
 
             }
             HorizontalDivider(
@@ -259,12 +269,9 @@ fun MoreScreen(modifier: Modifier = Modifier) {
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable {
-
-                        showBottomSheet = true
-                    }, horizontalArrangement = Arrangement.SpaceBetween
+                    , horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Box() {
+                Box(modifier=modifier.align(Alignment.CenterVertically)) {
                     Icon(
                         painter = painterResource(id = R.drawable.fill),
                         contentDescription = "back button",
@@ -280,13 +287,15 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                         color = G200
                     )
                 }
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
-                    contentDescription = "back button",
-                    modifier = modifier.size(24.dp),
-                    tint = G200,
+                IconButton(onClick = { showBottomSheet=true }){
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
+                        contentDescription = "Help",
+                        modifier = modifier.size(24.dp),
+                        tint = G200,
 
-                    )
+                        )
+                }
 
             }
             HorizontalDivider(
@@ -298,7 +307,7 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                 modifier = modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Box() {
+                Box(modifier=modifier.align(Alignment.CenterVertically)) {
                     Icon(
                         painter = painterResource(id = R.drawable.logout),
                         contentDescription = "back button",
@@ -314,21 +323,20 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                         color = G200
                     )
                 }
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
-                    contentDescription = "back button",
-                    modifier = modifier.size(24.dp),
-                    tint = G200,
+                IconButton(onClick = { logout.invoke() }){
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
+                        contentDescription = "back button",
+                        modifier = modifier.size(24.dp),
+                        tint = G200,
 
-                    )
+                        )
+                }
 
             }
         }
     }
+
+    
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun MoreScreenPreview() {
-    MoreScreen()
-}

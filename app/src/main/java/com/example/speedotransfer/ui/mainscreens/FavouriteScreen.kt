@@ -42,7 +42,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.D300
 import com.example.speedotransfer.ui.theme.G0
@@ -58,7 +61,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouriteScreen(modifier: Modifier = Modifier) {
+fun FavouriteScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -177,7 +180,7 @@ fun FavouriteScreen(modifier: Modifier = Modifier) {
                 .padding(horizontal = 16.dp)
         ) {
             Row(modifier = modifier.fillMaxWidth()) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.navigate(Route.MORE) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.drop_down),
                         contentDescription = "back button",
@@ -310,10 +313,3 @@ fun FavouriteScreen(modifier: Modifier = Modifier) {
 }
 
 
-
-@Preview(showSystemUi = true)
-@Composable
-private fun FavouriteScreenPreview() {
-    FavouriteScreen()
-
-}

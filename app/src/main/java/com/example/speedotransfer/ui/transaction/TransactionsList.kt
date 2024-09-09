@@ -26,7 +26,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.D300
 import com.example.speedotransfer.ui.theme.DarkGreen
@@ -40,7 +43,7 @@ import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P50
 
 @Composable
-fun TransactionHistory(modifier: Modifier = Modifier) {
+fun TransactionHistory(navController: NavHostController, modifier: Modifier = Modifier) {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -55,7 +58,7 @@ fun TransactionHistory(modifier: Modifier = Modifier) {
     ) {
         item {
             Row(modifier = modifier.fillMaxWidth()) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.navigate(Route.HOME) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.drop_down),
                         contentDescription = "back button",
@@ -84,7 +87,7 @@ fun TransactionHistory(modifier: Modifier = Modifier) {
                 modifier = modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 12.dp)
-                    .clickable { },
+                    .clickable { navController.navigate(Route.TRASACTIONDETAILS)},
                 colors = CardDefaults.cardColors(
                     G0
                 )
@@ -268,10 +271,3 @@ fun TransactionHistory(modifier: Modifier = Modifier) {
 }
 
 
-@Preview(showSystemUi = true, showBackground = true,
-    device = "spec:parent=pixel_5"
-)
-@Composable
-private fun TransactionHistoryPreview() {
-    TransactionHistory()
-}

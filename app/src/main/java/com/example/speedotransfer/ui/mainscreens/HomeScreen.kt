@@ -2,6 +2,7 @@ package com.example.speedotransfer.ui.mainscreens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,8 +29,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
 import com.example.speedotransfer.ui.theme.G100
@@ -42,7 +45,7 @@ import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P400
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -94,7 +97,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     }
                     Image(painter = painterResource(id = R.drawable.notifications), contentDescription ="notifications", modifier= modifier
                         .size(32.dp)
-                        .padding(end = 0.dp) )
+                        .padding(end = 0.dp).clickable{
+                            navController.navigate(Route.NOTIFICATIONS)
+                        })
 
                 }
                 Card(
@@ -131,7 +136,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                         style = AppTypography.bodyLarge
                     )
 
-                    TextButton(onClick = {}) {
+                    TextButton(onClick = {navController.navigate(Route.TRANSACTIONS)}) {
 
                         Text(
                             textAlign = TextAlign.End,
@@ -203,14 +208,3 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-private fun HomeScreenPreview() {
-    Scaffold (
-
-    ){innerPadding->
-        HomeScreen(modifier = Modifier.padding(innerPadding))
-    }
-
-
-}
