@@ -28,6 +28,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -45,24 +46,6 @@ import com.example.speedotransfer.ui.theme.G400
 import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P500
-
-@Composable
-fun Splash(modifier: Modifier = Modifier) {
-    Box(
-        Modifier
-            .background(P500)
-            .fillMaxSize()
-    ) {
-        Text(
-            text = "Speedo Transfer ",
-            style = AppTypography.h1,
-            color = G0,
-            modifier = modifier.align(
-                Alignment.Center
-            )
-        )
-    }
-}
 
 @Composable
 fun SignUp(navController: NavController,modifier: Modifier = Modifier) {
@@ -255,5 +238,4 @@ fun SecondSignUp(navController: NavController,modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    SignUp()
 }
