@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.speedotransfer.R
+import com.example.speedotransfer.ui.ConfirmPasswordTextFields
 import com.example.speedotransfer.ui.CountryPickerField
 import com.example.speedotransfer.ui.DatePickerField
 import com.example.speedotransfer.ui.PasswordTextFields
@@ -89,8 +90,8 @@ fun ChangePasswordScreen(modifier: Modifier = Modifier) {
 
             }
 
-            PasswordTextFields(inputText = "Current Password", inputTextField = "Enter your password")
-            PasswordTextFields(inputText = "New Password", inputTextField = "Enter your password")
+            val password = PasswordTextFields(inputText = "Current Password", inputTextField = "Enter your password")
+            ConfirmPasswordTextFields(inputText = "New Password", inputTextField = "Enter your password",password)
             Button(
                 onClick = { }, modifier = modifier
                     .fillMaxWidth()

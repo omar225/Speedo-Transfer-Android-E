@@ -32,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
 import com.example.speedotransfer.ui.TextFields
@@ -100,7 +101,7 @@ fun SignIn(modifier: Modifier = Modifier) {
                     color = P300,
                     modifier = modifier
                         .padding(start = 4.dp)
-                        .clickable { /*TODO: navigate to sign up*/ }
+                        .clickable { }
 
                 )
             }
@@ -118,7 +119,7 @@ fun SignInFields(modifier: Modifier) {
         TextFields("Email", "Enter your email address", R.drawable.email)
         PasswordTextFields("Password", "Enter your password")
         Button(
-            onClick = { }, modifier = modifier
+            onClick = {}, modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp)
                 .height(50.dp),
@@ -131,7 +132,7 @@ fun SignInFields(modifier: Modifier) {
 }
 
 @Composable
-fun TimeOut(modifier: Modifier = Modifier) {
+fun TimeOut(navController: NavController,modifier: Modifier = Modifier) {
     var showNotification by remember { mutableStateOf(true) }
 
     Box(
@@ -229,7 +230,5 @@ fun TimeOut(modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SignUpPreview() {
-    SignIn()
-    TimeOut()
 }
 

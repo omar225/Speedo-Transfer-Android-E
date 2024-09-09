@@ -15,6 +15,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -27,8 +31,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
+import com.example.speedotransfer.ui.ConfirmPasswordTextFields
 import com.example.speedotransfer.ui.CountryPickerField
 import com.example.speedotransfer.ui.DatePickerField
 import com.example.speedotransfer.ui.TextFields
@@ -41,25 +47,9 @@ import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P500
 
 @Composable
-fun Splash(modifier: Modifier = Modifier) {
-    Box(
-        Modifier
-            .background(P500)
-            .fillMaxSize()
-    ) {
-        Text(
-            text = "Speedo Transfer ",
-            style = AppTypography.h1,
-            color = G0,
-            modifier = modifier.align(
-                Alignment.Center
-            )
-        )
-    }
-}
-
-@Composable
 fun SignUp(modifier: Modifier = Modifier) {
+
+    var isSignupPressed by remember { mutableStateOf(false) }
 
     Box(
         Modifier
@@ -98,8 +88,8 @@ fun SignUp(modifier: Modifier = Modifier) {
             )
             TextFields("Full Name", "Enter your Full Name", R.drawable.user)
             TextFields("Email", "Enter your email address", R.drawable.email)
-            PasswordTextFields("Password", "Enter your password")
-            PasswordTextFields("Confirm Password", "Enter your password")
+            val password = PasswordTextFields("Password", "Enter your password" )
+            ConfirmPasswordTextFields("Confirm Password", "Enter your password",password)
             Button(
                 onClick = { }, modifier = modifier
                     .fillMaxWidth()
@@ -157,7 +147,7 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
                 )
             ), contentAlignment = Alignment.Center
     ) {
-        IconButton(onClick = { /*TODO*/ }, modifier = modifier.align(Alignment.TopStart)) {
+        IconButton(onClick = {}, modifier = modifier.align(Alignment.TopStart)) {
             Icon(
                 painter = painterResource(id = R.drawable.drop_down),
                 contentDescription = "back button",
@@ -168,7 +158,7 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp,top = 32.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 32.dp)
         ) {
 
 
@@ -201,7 +191,7 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
             CountryPickerField("Country", "Select your country")
             DatePickerField("Date of Birth", "DD/MM/YYY")
             Button(
-                onClick = { }, modifier = modifier
+                onClick = {}, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
                     .height(50.dp),
@@ -246,5 +236,5 @@ fun SecondSignUp(modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    SecondSignUp()
+    SignUp()
 }

@@ -51,6 +51,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.speedotransfer.R
+import com.example.speedotransfer.ui.signinandup.validatePassword
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.CountryText
 import com.example.speedotransfer.ui.theme.D300
@@ -101,21 +102,25 @@ fun TextFields(
             cursorColor = G700
         ),
         trailingIcon = {
-            if (image != null){
-            IconButton(onClick = { }) {
-                Icon(
-                    painter = painterResource(id = image),
-                    contentDescription = "",
-                    modifier = modifier.size(25.dp)
-                )
-            }
+            if (image != null) {
+                IconButton(onClick = { }) {
+                    Icon(
+                        painter = painterResource(id = image),
+                        contentDescription = "",
+                        modifier = modifier.size(25.dp)
+                    )
+                }
             }
         }
     )
 }
 
 @Composable
-fun PasswordTextFields(inputText: String, inputTextField: String, modifier: Modifier = Modifier) {
+fun PasswordTextFields(
+    inputText: String,
+    inputTextField: String,
+    modifier: Modifier = Modifier
+) : String {
     var passwordField by remember {
         mutableStateOf("")
     }
@@ -123,6 +128,15 @@ fun PasswordTextFields(inputText: String, inputTextField: String, modifier: Modi
     var isPasswordShown by remember {
         mutableStateOf(true)
     }
+
+    var isValid by remember {
+        mutableStateOf(true)
+    }
+
+
+
+    isValid = validatePassword(passwordField)
+
     Text(
         text = inputText,
         style = AppTypography.bodyLarge,
@@ -137,6 +151,7 @@ fun PasswordTextFields(inputText: String, inputTextField: String, modifier: Modi
         textStyle = AppTypography.bodySmall,
         shape = RoundedCornerShape(4.dp),
         singleLine = true,
+        isError = !isValid,
         placeholder = { Text(text = inputTextField, color = G70) },
         colors = TextFieldDefaults.colors(
             focusedTextColor = G700,
@@ -150,6 +165,87 @@ fun PasswordTextFields(inputText: String, inputTextField: String, modifier: Modi
             cursorColor = G700,
             errorIndicatorColor = D300,
             errorTrailingIconColor = D300,
+            errorCursorColor = G700,
+            errorContainerColor = G10,
+            errorTextColor = G700,
+        ),
+        visualTransformation = if (isPasswordShown) PasswordVisualTransformation('*') else VisualTransformation.None,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        trailingIcon = {
+            val image = if (isPasswordShown) R.drawable.eye_comp_1 else R.drawable.eye_comp
+            IconButton(onClick = {
+                isPasswordShown = !isPasswordShown
+            }) {
+                Icon(
+                    painter = painterResource(id = image),
+                    contentDescription = "",
+                    modifier = modifier.size(25.dp)
+                )
+            }
+
+        }
+    )
+
+    return passwordField
+}
+
+@Composable
+fun ConfirmPasswordTextFields(
+    inputText: String,
+    inputTextField: String,
+    passedVal:String,
+    modifier: Modifier = Modifier
+){
+    var passwordField by remember {
+        mutableStateOf("")
+    }
+
+    var isPasswordShown by remember {
+        mutableStateOf(true)
+    }
+
+    var isValid by remember {
+        mutableStateOf(true)
+    }
+
+    if(passedVal == passwordField){
+        isValid = true
+    }else{
+        isValid = false
+    }
+
+
+    Text(
+        text = inputText,
+        style = AppTypography.bodyLarge,
+        modifier = modifier.padding(top = 12.dp)
+    )
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp),
+        value = passwordField,
+        onValueChange = { passwordField = it },
+        textStyle = AppTypography.bodySmall,
+        shape = RoundedCornerShape(4.dp),
+        singleLine = true,
+        isError = !isValid,
+        placeholder = { Text(text = inputTextField, color = G70) },
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = G700,
+            unfocusedTextColor = G700,
+            focusedContainerColor = G10,
+            unfocusedContainerColor = G10,
+            focusedIndicatorColor = G700,
+            unfocusedIndicatorColor = G70,
+            focusedTrailingIconColor = G700,
+            unfocusedTrailingIconColor = G70,
+            cursorColor = G700,
+            errorIndicatorColor = D300,
+            errorTrailingIconColor = D300,
+            errorCursorColor = G700,
+            errorContainerColor = G10,
+            errorTextColor = G700,
         ),
         visualTransformation = if (isPasswordShown) PasswordVisualTransformation('*') else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -283,9 +379,10 @@ fun CountryPickerField(
 
             ) {
             CountryList(
-                onCountrySelected = { country ->selectedCountry = country},
-                selectedCountry = selectedCountry)
-            
+                onCountrySelected = { country -> selectedCountry = country },
+                selectedCountry = selectedCountry
+            )
+
         }
     }
 
