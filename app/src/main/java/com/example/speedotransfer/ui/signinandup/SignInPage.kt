@@ -132,7 +132,7 @@ fun SignInFields(modifier: Modifier) {
 }
 
 @Composable
-fun TimeOut(navController: NavController,modifier: Modifier = Modifier) {
+fun TimeOut(modifier: Modifier = Modifier) {
     var showNotification by remember { mutableStateOf(true) }
 
     Box(
