@@ -6,8 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -26,8 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
@@ -53,6 +55,7 @@ fun NotificationsScreen(navController: NavHostController, modifier: Modifier = M
                 )
             )
     ) {
+        Spacer(modifier = modifier.height(40.dp))
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -80,168 +83,80 @@ fun NotificationsScreen(navController: NavHostController, modifier: Modifier = M
                 )
 
             }
-
-            Card(
-                colors = CardDefaults.cardColors(
-                    P50
-                ),modifier = modifier
-                    .padding(vertical = 8.dp)
-                    .fillMaxWidth()
-            ) {
-
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-
-                    Card(modifier = modifier
-                        .padding(horizontal = 8.dp, vertical = 16.dp)
-                        .background(color = P50)
-                        .size(54.dp), elevation = CardDefaults.cardElevation(3.dp)){
-                        Box (modifier = modifier.fillMaxSize(),contentAlignment = Alignment.Center){
-                            Image(
-
-                                painter = painterResource(id = R.drawable.received),
-                                contentDescription = "",
-                                modifier = modifier
-
-                                    .size(32.dp)
-                                    .clip(shape = CircleShape)
-                                    .background(color = P75),
-                                colorFilter = ColorFilter.tint(P300)
-                            )
-                        }
-                    }
-
-                        Column(horizontalAlignment = Alignment.Start, modifier = modifier.padding(vertical = 16.dp)) {
-
-                            Text(text = "Received Transactions", style = AppTypography.bodyMedium)
-                            Text(
-                                text = "You have received 1000 USD from Asmaa Dosuky 1234xxxx",
-                                style = AppTypography.bodyLarge,
-                                textAlign = TextAlign.Start,
-                                color = G700
-                            )
-                            Text(
-                                text = "12 Jul 2024 09:00 PM ",
-                                style = AppTypography.bodyLarge,
-                                color = G100,
-                                textAlign = TextAlign.Start
-                            )
-
-
-                        }
-                    }
-                
-
-
-
-
-
-            }
-            Card(
-                colors = CardDefaults.cardColors(
-                    P50
-                ),modifier = modifier
-                    .padding(vertical = 8.dp)
-                    .fillMaxWidth()
-            ) {
-
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-
-                    Card(modifier = modifier
-                        .padding(horizontal = 8.dp, vertical = 16.dp)
-                        .background(color = P50)
-                        .size(54.dp), elevation = CardDefaults.cardElevation(3.dp)){
-                        Box (modifier = modifier.fillMaxSize(),contentAlignment = Alignment.Center){
-                            Image(
-
-                                painter = painterResource(id = R.drawable.received),
-                                contentDescription = "",
-                                modifier = modifier
-
-                                    .size(32.dp)
-                                    .clip(shape = CircleShape)
-                                    .background(color = P75),
-                                colorFilter = ColorFilter.tint(P300)
-                            )
-                        }
-                    }
-
-                    Column(horizontalAlignment = Alignment.Start, modifier = modifier.padding(vertical = 16.dp)) {
-
-                        Text(text = "Received Transactions", style = AppTypography.bodyMedium)
-                        Text(
-                            text = "You have received 1000 USD from Asmaa Dosuky 1234xxxx",
-                            style = AppTypography.bodyLarge,
-                            textAlign = TextAlign.Start,
-                            color = G700
-                        )
-                        Text(
-                            text = "12 Jul 2024 09:00 PM ",
-                            style = AppTypography.bodyLarge,
-                            color = G100,
-                            textAlign = TextAlign.Start
-                        )
-
-
-                    }
-                }
-            }
-            Card(
-                colors = CardDefaults.cardColors(
-                    P50
-                ),modifier = modifier
-                    .padding(vertical = 8.dp)
-                    .fillMaxWidth()
-            ) {
-
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-
-                    Card(modifier = modifier
-                        .padding(horizontal = 8.dp, vertical = 16.dp)
-                        .background(color = P50)
-                        .size(54.dp), elevation = CardDefaults.cardElevation(3.dp)){
-                        Box (modifier = modifier.fillMaxSize(),contentAlignment = Alignment.Center){
-                            Image(
-
-                                painter = painterResource(id = R.drawable.received),
-                                contentDescription = "",
-                                modifier = modifier
-
-                                    .size(32.dp)
-                                    .clip(shape = CircleShape)
-                                    .background(color = P75),
-                                colorFilter = ColorFilter.tint(P300)
-                            )
-                        }
-                    }
-
-                    Column(horizontalAlignment = Alignment.Start, modifier = modifier.padding(vertical = 16.dp)) {
-
-                        Text(text = "Received Transactions", style = AppTypography.bodyMedium)
-                        Text(
-                            text = "You have received 1000 USD from Asmaa Dosuky 1234xxxx",
-                            style = AppTypography.bodyLarge,
-                            textAlign = TextAlign.Start,
-                            color = G700
-                        )
-                        Text(
-                            text = "12 Jul 2024 09:00 PM ",
-                            style = AppTypography.bodyLarge,
-                            color = G100,
-                            textAlign = TextAlign.Start
-                        )
-
-
-                    }
-                }
-
-
-
-
-
-
-            }
+            NotificationCard(moneyReceived = "1000", date = "12 Jul 2024", time = "09:00 PM", name = "Asmaa Dosuky")
+            NotificationCard(moneyReceived = "1000", date = "12 Jul 2024", time = "09:00 PM", name = "Asmaa Dosuky")
+            NotificationCard(moneyReceived = "1000", date = "12 Jul 2024", time = "09:00 PM", name = "Asmaa Dosuky")
         }
     }
 
 }
 
+
+@Composable
+fun NotificationCard(moneyReceived: String, date: String, time: String, name: String, modifier: Modifier = Modifier) {
+
+    Card(
+        colors = CardDefaults.cardColors(
+            P50
+        ),modifier = modifier
+            .padding(vertical = 8.dp)
+            .fillMaxWidth()
+    ) {
+
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+
+            Card(modifier = modifier
+                .padding(horizontal = 8.dp, vertical = 16.dp)
+                .background(color = P50)
+                .size(54.dp), elevation = CardDefaults.cardElevation(3.dp)){
+                Box (modifier = modifier.fillMaxSize(),contentAlignment = Alignment.Center){
+                    Image(
+
+                        painter = painterResource(id = R.drawable.received),
+                        contentDescription = "",
+                        modifier = modifier
+
+                            .size(32.dp)
+                            .clip(shape = CircleShape)
+                            .background(color = P75),
+                        colorFilter = ColorFilter.tint(P300)
+                    )
+                }
+            }
+
+            Column(horizontalAlignment = Alignment.Start, modifier = modifier.padding(vertical = 16.dp)) {
+
+                Text(text = "Received Transactions", style = AppTypography.bodyMedium)
+                Text(
+                    text = "You have received $moneyReceived USD from $name 1234xxxx",
+                    style = AppTypography.bodyLarge,
+                    textAlign = TextAlign.Start,
+                    color = G700
+                )
+                Text(
+                    text = "$date $time ",
+                    style = AppTypography.bodyLarge,
+                    color = G100,
+                    textAlign = TextAlign.Start
+                )
+
+
+            }
+        }
+
+
+
+
+
+
+    }
+
+}
+
+
+@Preview
+@Composable
+private fun NotificationScreenPreview() {
+
+    NotificationsScreen(navController = rememberNavController())
+}

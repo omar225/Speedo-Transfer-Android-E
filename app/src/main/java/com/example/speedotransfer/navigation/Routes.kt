@@ -39,7 +39,9 @@ import com.example.speedotransfer.ui.signinandup.SecondSignUp
 import com.example.speedotransfer.ui.signinandup.SignIn
 import com.example.speedotransfer.ui.signinandup.SignUp
 import com.example.speedotransfer.ui.theme.AppTypography
+import com.example.speedotransfer.ui.theme.G200
 import com.example.speedotransfer.ui.theme.P300
+import androidx.compose.material.Icon
 
 object Route{
 
@@ -84,6 +86,7 @@ sealed class NavigationItem(val route: String, val icon: Int, val title: String)
     object Home : NavigationItem(Route.HOME, R.drawable.home, "Home")
     object More : NavigationItem(Route.MORE, R.drawable.more, "More")
     object Transactions : NavigationItem(Route.TRANSACTIONS, R.drawable.history_1, "Transactions")
+    object myCards: NavigationItem(Route.FAVOURITES, R.drawable.cards_1, "My cards")
     object Transfer : NavigationItem(Route.AMONT, R.drawable.transfer_1, "Transfer")
 }
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -105,29 +108,30 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                         NavigationItem.Home,
                         NavigationItem.Transfer,
                         NavigationItem.Transactions,
+                        NavigationItem.myCards,
                         NavigationItem.More
                     )
                     BottomNavigation(
                         backgroundColor = Color.White,
-                        contentColor = Color.Black,
+                        contentColor = G200,
                         modifier = modifier.clip(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
                     ) {
                         val selectedItem = remember { mutableStateOf(0) }
                         items.forEachIndexed { index, item ->
                             BottomNavigationItem(
                                 icon = {
-                                    androidx.compose.material.Icon(
+                                    Icon(
                                         painter = painterResource(
                                             id = item.icon
                                         ), contentDescription = item.title,
-                                        tint = if (selectedItem.value == index) P300 else Color.Black,
+                                        tint = if (selectedItem.value == index) P300 else G200,
                                         modifier = modifier.size(20.dp)
                                     )
                                 },
                                 label = {
                                     Text(
                                         text = item.title,
-                                        color = if (selectedItem.value == index) P300 else Color.Black,
+                                        color = if (selectedItem.value == index) P300 else G200,
                                         style = AppTypography.smallFont
                                     )
                                 },

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,8 +45,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.ui.TextFields
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.D300
 import com.example.speedotransfer.ui.theme.G0
@@ -97,48 +100,20 @@ fun FavouriteScreen(navController: NavHostController, modifier: Modifier = Modif
                     color = G700
                 )
             }
-            Text(
-                text = "Recipient Account",
-                modifier = modifier.padding(start = 12.dp),
-                style = AppTypography.bodyLarge,
-                color = G100
-            )
-            OutlinedTextField(
-                value = recipientAccount,
-                onValueChange = { recipientAccount = it },
-                label = { Text(text = "Enter Recipient Account Number") },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 12.dp),
-                textStyle = TextStyle(color = G100),
-                shape = RoundedCornerShape(4.dp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = G0,
-                    unfocusedContainerColor = G0
-                )
-            )
-            Text(
-                text = "Recipient Name",
-                modifier = modifier.padding(top = 12.dp, start = 12.dp),
-                style = AppTypography.bodyLarge,
-                color = G100
-            )
-            OutlinedTextField(
-                value = recipientName,
-                onValueChange = { recipientName = it },
-                label = { Text(text = "Enter Recipient Name") },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 12.dp),
-                textStyle = TextStyle(color = G100),
-                shape = RoundedCornerShape(4.dp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = G0,
-                    unfocusedContainerColor = G0
-                )
-            )
 
+            Column(
+                modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+            {
+                TextFields(
+                    inputText = "Recipient Account",
+                    inputTextField = "Enter Cardholder Name"
+                )
 
+                TextFields(inputText = "Recipient Name", inputTextField = "Enter Cardholder Name")
+            }
             Button(
                 onClick = {
                     scope.launch { sheetState.hide() }.invokeOnCompletion {
@@ -150,13 +125,15 @@ fun FavouriteScreen(navController: NavHostController, modifier: Modifier = Modif
                     }
                 }, modifier = modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 12.dp)
-                    .height(50.dp),
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .height(51.dp),
                 shape = RoundedCornerShape(4.dp),
                 colors = ButtonDefaults.buttonColors(P300)
             ) {
                 Text(text = "Save ", style = AppTypography.button)
             }
+            
+            Spacer(modifier = modifier.height(60.dp))
 
         }
     }
@@ -179,6 +156,7 @@ fun FavouriteScreen(navController: NavHostController, modifier: Modifier = Modif
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
+            Spacer(modifier = modifier.height(40.dp))
             Row(modifier = modifier.fillMaxWidth()) {
                 IconButton(onClick = { navController.navigate(Route.MORE) }) {
                     Icon(
@@ -186,7 +164,6 @@ fun FavouriteScreen(navController: NavHostController, modifier: Modifier = Modif
                         contentDescription = "back button",
                         modifier = modifier.size(24.dp)
                     )
-
                 }
                 Text(
                     text = "Favourite",
@@ -313,3 +290,10 @@ fun FavouriteScreen(navController: NavHostController, modifier: Modifier = Modif
 }
 
 
+@Preview
+@Composable
+private fun FavouriteScreenPreview() {
+    FavouriteScreen(rememberNavController())
+
+    
+}

@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
@@ -60,17 +61,18 @@ fun SignIn(navController: NavController,modifier: Modifier = Modifier) {
             ), contentAlignment = Alignment.Center
     ) {
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
             modifier = modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
-
         ) {
             Text(
                 text = "Sign In",
                 textAlign = TextAlign.Center,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp),
+                    .padding(top = 50.dp),
                 style = AppTypography.titleSemiBold
             )
             Text(
@@ -232,6 +234,7 @@ fun TimeOut(navController: NavController,modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SignUpPreview() {
+fun SignInPreview() {
+    SignIn(navController = rememberNavController())
 }
 

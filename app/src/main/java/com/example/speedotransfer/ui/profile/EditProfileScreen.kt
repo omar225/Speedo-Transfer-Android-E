@@ -62,7 +62,7 @@ fun EditProfileScreen(navController: NavHostController, modifier: Modifier = Mod
                 .padding(horizontal = 16.dp)
         ) {
 
-            Spacer(modifier = Modifier.padding(top = 36.dp))
+            Spacer(modifier = Modifier.padding(top = 40.dp))
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,

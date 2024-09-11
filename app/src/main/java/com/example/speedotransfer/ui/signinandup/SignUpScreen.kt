@@ -1,8 +1,11 @@
 package com.example.speedotransfer.ui.signinandup
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
@@ -48,7 +52,7 @@ import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P500
 
 @Composable
-fun SignUp(navController: NavController,modifier: Modifier = Modifier) {
+fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
 
     var isSignupPressed by remember { mutableStateOf(false) }
 
@@ -65,7 +69,8 @@ fun SignUp(navController: NavController,modifier: Modifier = Modifier) {
             ), contentAlignment = Alignment.Center
     ) {
         Column(
-            Modifier
+            verticalArrangement = Arrangement.Top,
+            modifier = modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
@@ -76,7 +81,7 @@ fun SignUp(navController: NavController,modifier: Modifier = Modifier) {
                 textAlign = TextAlign.Center,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp),
+                    .padding(top = 50.dp),
                 style = AppTypography.titleSemiBold
             )
             Text(
@@ -89,10 +94,11 @@ fun SignUp(navController: NavController,modifier: Modifier = Modifier) {
             )
             TextFields("Full Name", "Enter your Full Name", R.drawable.user)
             TextFields("Email", "Enter your email address", R.drawable.email)
-            val password = PasswordTextFields("Password", "Enter your password" )
-            ConfirmPasswordTextFields("Confirm Password", "Enter your password",password)
+            val password = PasswordTextFields("Password", "Enter your password")
+            ConfirmPasswordTextFields("Confirm Password", "Enter your password", password)
             Button(
-                onClick = { navController.navigate(route = Route.COMPLETEPROFILE)}, modifier = modifier
+                onClick = { navController.navigate(route = Route.COMPLETEPROFILE) },
+                modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
 
@@ -102,32 +108,28 @@ fun SignUp(navController: NavController,modifier: Modifier = Modifier) {
             ) {
                 Text(text = "Sign up ", style = AppTypography.button)
             }
-            Text(
-
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(color = G100, fontSize = 18.sp)
-                    )
-                    {
-                        append("Already have an account?  ")
-                    }
-                    withStyle(
-                        style = SpanStyle(
-                            color = P300,
-                            textDecoration = TextDecoration.Underline,
-                            fontSize = 18.sp
-                        )
-                    )
-                    {
-                        append("Sign in")
-                    }
-                },
-                textAlign = TextAlign.Center,
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp),
+                    .padding(top = 20.dp)
+            ) {
+                Text(
+                    text = "Already have an account?",
+                    style = AppTypography.bodyMedium,
+                    color = G100
+                )
+                Text(
+                    text = "Sign In",
+                    style = AppTypography.linkMedium,
+                    color = P300,
+                    modifier = modifier
+                        .padding(start = 4.dp)
+                        .clickable { navController.navigate(route = Route.SIGNIN) }
 
                 )
+            }
 
         }
     }
@@ -136,7 +138,7 @@ fun SignUp(navController: NavController,modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SecondSignUp(navController: NavController,modifier: Modifier = Modifier) {
+fun SecondSignUp(navController: NavController, modifier: Modifier = Modifier) {
     Box(
         Modifier
             .fillMaxSize()
@@ -149,21 +151,28 @@ fun SecondSignUp(navController: NavController,modifier: Modifier = Modifier) {
                 )
             ), contentAlignment = Alignment.Center
     ) {
-        IconButton(onClick = { navController.navigate(route = Route.SIGNUP)}, modifier = modifier.align(Alignment.TopStart)) {
-            Icon(
-                painter = painterResource(id = R.drawable.drop_down),
-                contentDescription = "back button",
-                modifier = modifier.size(24.dp)
-            )
-
-        }
         Column(
-            Modifier
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start,
+            modifier = modifier
                 .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp, top = 32.dp)
+                .padding(horizontal = 16.dp)
         ) {
 
+            IconButton(
+                onClick = { navController.navigate(route = Route.SIGNUP) },
+                modifier = modifier
+                    .padding(top = 50.dp)
+                    .size(24.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.drop_down),
+                    contentDescription = "back button",
+                    modifier = modifier
+                        .size(24.dp)
+                )
 
+            }
 
             Text(
                 text = "Speedo Transfer",
@@ -193,7 +202,7 @@ fun SecondSignUp(navController: NavController,modifier: Modifier = Modifier) {
             CountryPickerField("Country", "Select your country")
             DatePickerField("Date of Birth", "DD/MM/YYY")
             Button(
-                onClick = { navController.navigate(route = Route.SIGNIN)}, modifier = modifier
+                onClick = { navController.navigate(route = Route.SIGNIN) }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
                     .height(50.dp),
@@ -202,32 +211,29 @@ fun SecondSignUp(navController: NavController,modifier: Modifier = Modifier) {
             ) {
                 Text(text = "Continue ", style = AppTypography.button)
             }
-            Text(
 
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(color = G100, fontSize = 18.sp)
-                    )
-                    {
-                        append("Already have an account?  ")
-                    }
-                    withStyle(
-                        style = SpanStyle(
-                            color = P300,
-                            textDecoration = TextDecoration.Underline,
-                            fontSize = 18.sp
-                        )
-                    )
-                    {
-                        append("Sign in")
-                    }
-                },
-                textAlign = TextAlign.Center,
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(top = 20.dp),
+                    .padding(top = 20.dp)
+            ) {
+                Text(
+                    text = "Already have an account?",
+                    style = AppTypography.bodyMedium,
+                    color = G100
+                )
+                Text(
+                    text = "Sign In",
+                    style = AppTypography.linkMedium,
+                    color = P300,
+                    modifier = modifier
+                        .padding(start = 4.dp)
+                        .clickable { navController.navigate(route = Route.SIGNIN) }
 
                 )
+            }
 
         }
 
@@ -238,4 +244,6 @@ fun SecondSignUp(navController: NavController,modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
+    SecondSignUp(navController = rememberNavController())
+
 }

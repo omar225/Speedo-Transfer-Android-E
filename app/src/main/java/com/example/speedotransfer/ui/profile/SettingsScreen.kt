@@ -54,7 +54,7 @@ fun SettingsScreen(navController: NavHostController, modifier: Modifier = Modifi
                 .padding(horizontal = 16.dp)
         ) {
 
-            Spacer(modifier = Modifier.padding(top = 36.dp))
+            Spacer(modifier = Modifier.padding(top = 40.dp))
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,

@@ -1,5 +1,7 @@
 package com.example.speedotransfer.ui.mainscreens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,8 +9,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,6 +48,7 @@ import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
 import com.example.speedotransfer.ui.theme.G200
+import com.example.speedotransfer.ui.theme.G40
 import com.example.speedotransfer.ui.theme.Home
 import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
@@ -67,7 +72,16 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
             Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp)) {
-                Card(elevation = CardDefaults.cardElevation(4.dp), colors = CardDefaults.cardColors(G0)){
+                Card(
+                    elevation = CardDefaults.cardElevation(4.dp),
+                    colors = CardDefaults.cardColors(G0),
+                    modifier = modifier.clickable {
+                        showBottomSheet=false
+                        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto: speedotechsupport@gmail.com"))
+                        navController.context.startActivity(emailIntent)
+                    }
+                )
+                {
                     Column(
                         modifier = modifier.size(
                             width = 120.dp, height = 140.dp
@@ -92,7 +106,17 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
                         Text(text = "Send email", modifier = modifier.padding(top = 12.dp))
                     }
                 }
-                Card(elevation = CardDefaults.cardElevation(4.dp), colors = CardDefaults.cardColors(G0)){
+                Card(
+                    elevation = CardDefaults.cardElevation(4.dp),
+                    colors = CardDefaults.cardColors(G0),
+                    modifier = modifier.clickable {
+                        showBottomSheet=false
+                        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:00000"))
+                        navController.context.startActivity(intent)
+                    }
+
+
+                ){
                     Column(
                         modifier = modifier.size(width = 120.dp, height = 140.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -132,13 +156,21 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
                 )
             )
     ) {
+        Spacer(modifier = modifier.height(56.dp))
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                .padding(horizontal = 16.dp)
         ) {
-            Row(modifier = modifier.fillMaxWidth()) {
-                IconButton(onClick = { navController.navigate(Route.HOME)}) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier.fillMaxWidth()
+            ) {
+                IconButton(
+                    modifier = modifier.size(24.dp),
+                    onClick = { navController.navigate(Route.HOME)}
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.drop_down),
                         contentDescription = "back button",
@@ -150,8 +182,7 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
                     text = "More",
                     modifier = modifier
                         .fillMaxWidth()
-                        .align(Alignment.CenterVertically)
-                        .padding(end = 20.dp),
+                        .align(Alignment.CenterVertically),
                     style = AppTypography.titleMedium,
                     textAlign = TextAlign.Center
                 )
@@ -190,7 +221,7 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
 
             }
             HorizontalDivider(
-                color = Color.LightGray,
+                color = G40,
                 thickness = 2.dp,
                 modifier = modifier.padding(vertical = 16.dp)
             )
@@ -226,7 +257,7 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
 
             }
             HorizontalDivider(
-                color = Color.LightGray,
+                color = G40,
                 thickness = 2.dp,
                 modifier = modifier.padding(vertical = 16.dp)
             )
@@ -262,8 +293,8 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
 
             }
             HorizontalDivider(
-                color = Color.LightGray,
-                thickness = 2.dp,
+                color = G40,
+                thickness = 1.dp,
                 modifier = modifier.padding(vertical = 16.dp)
             )
             Row(
@@ -299,7 +330,7 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
 
             }
             HorizontalDivider(
-                color = Color.LightGray,
+                color = G40,
                 thickness = 2.dp,
                 modifier = modifier.padding(vertical = 16.dp)
             )
@@ -323,7 +354,9 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
                         color = G200
                     )
                 }
-                IconButton(onClick = { logout.invoke() }){
+                IconButton(onClick = {
+                    logout.invoke()
+                }){
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
                         contentDescription = "back button",
@@ -338,5 +371,12 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
     }
 
     
+}
+
+@Preview
+@Composable
+private fun MoreScreenPreview() {
+    MoreScreen(navController = rememberNavController(), logout = {})
+
 }
 

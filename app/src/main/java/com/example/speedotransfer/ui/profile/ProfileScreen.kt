@@ -67,7 +67,7 @@ fun ProfileScreen(navController: NavHostController, modifier: Modifier = Modifie
                 .padding(horizontal = 16.dp)
         ) {
 
-            Spacer(modifier = Modifier.padding(top = 36.dp))
+            Spacer(modifier = Modifier.padding(top = 40.dp))
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -76,13 +76,15 @@ fun ProfileScreen(navController: NavHostController, modifier: Modifier = Modifie
                     .fillMaxWidth()
                     .padding(0.dp, 16.dp, 0.dp, 16.dp)
             ) {
-                IconButton (onClick = {navController.navigate(Route.MORE)}){
+                IconButton (
+                    modifier = modifier.size(24.dp),
+                    onClick = {navController.navigate(Route.MORE)}
+                ){
                     Icon(
                     painter = painterResource(id = R.drawable.drop_down),
                     contentDescription = "back icon",
                     tint = G900,
                     modifier = modifier
-                        .clickable { }
                         .size(24.dp)
                     )
                 }
