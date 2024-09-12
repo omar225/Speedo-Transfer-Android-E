@@ -1,5 +1,7 @@
 package com.example.speedotransfer.ui.signinandup
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -36,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.speedotransfer.MainActivity
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
@@ -138,7 +142,7 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SecondSignUp(navController: NavController, modifier: Modifier = Modifier) {
+fun SecondSignUp(navController: NavController,firstTime: Boolean  ,context: Context , modifier: Modifier = Modifier) {
     Box(
         Modifier
             .fillMaxSize()
@@ -202,7 +206,10 @@ fun SecondSignUp(navController: NavController, modifier: Modifier = Modifier) {
             CountryPickerField("Country", "Select your country")
             DatePickerField("Date of Birth", "DD/MM/YYY")
             Button(
-                onClick = { navController.navigate(route = Route.SIGNIN) }, modifier = modifier
+                onClick = {
+                    val writer = context.getSharedPreferences("FirstTime", Context.MODE_PRIVATE).edit()
+                    writer.putBoolean("firstTime", false).apply()
+                    navController.navigate(route = Route.SIGNIN) }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
                     .height(50.dp),
@@ -230,7 +237,9 @@ fun SecondSignUp(navController: NavController, modifier: Modifier = Modifier) {
                     color = P300,
                     modifier = modifier
                         .padding(start = 4.dp)
-                        .clickable { navController.navigate(route = Route.SIGNIN) }
+                        .clickable {
+
+                            navController.navigate(route = Route.SIGNIN) }
 
                 )
             }
@@ -244,6 +253,6 @@ fun SecondSignUp(navController: NavController, modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    SecondSignUp(navController = rememberNavController())
+    SecondSignUp(navController = rememberNavController(), firstTime = true, context = LocalContext.current)
 
 }

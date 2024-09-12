@@ -1,6 +1,7 @@
 package com.example.speedotransfer.navigation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -42,9 +43,7 @@ import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G200
 import com.example.speedotransfer.ui.theme.P300
 import androidx.compose.material.Icon
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import kotlinx.coroutines.delay
 
 object Route{
 
@@ -96,11 +95,16 @@ sealed class NavigationItem(val route: String, val icon: Int, val title: String)
 @Composable
 fun AppNavHost(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
+    val context = LocalContext.current
+    val reader = context.getSharedPreferences("FirstTime", Context.MODE_PRIVATE)
+    val firstTime = reader.getBoolean("firstTime", true)
 
-    NavHost(navController = navController, startDestination = Route.ONBOARDINGSCREEN) {
+    NavHost(navController = navController, startDestination = if(firstTime) Route.ONBOARDINGSCREEN else  Route.AUTH) {
+        if(firstTime){
+            onboardingGraph(navController)
+        }
 
-        onboardingGraph(navController)
-        authGraph(navController)
+        authGraph(navController,firstTime,context)
 
         composable(route = Route.MAINAPP) {
             val navControllerTwo = rememberNavController()
