@@ -37,6 +37,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.MainActivity
@@ -54,6 +55,9 @@ import com.example.speedotransfer.ui.theme.G400
 import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P500
+import com.example.speedotransfer.viewmodel.SignUpViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.speedotransfer.model.UserSignUp
 
 @Composable
 fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
@@ -105,7 +109,10 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
             password = PasswordTextFields("Password", "Enter your password")
             ConfirmPasswordTextFields("Confirm Password", "Enter your password", password)
             Button(
-                onClick = { navController.navigate(route = "${Route.COMPLETEPROFILE}/${name}/${email}/${password}")},
+                onClick = {
+                    navController.navigate(route = "${Route.COMPLETEPROFILE}/${name}/${email}/${password}")
+
+                          },
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
@@ -153,6 +160,7 @@ fun SecondSignUp(
     name: String = "",
     email: String = "",
     password: String = "",
+    viewModel: SignUpViewModel=viewModel(),
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -222,6 +230,7 @@ fun SecondSignUp(
                     val writer =
                         context.getSharedPreferences("FirstTime", Context.MODE_PRIVATE).edit()
                     writer.putBoolean("firstTime", false).apply()
+                    viewModel.signup(UserSignUp(name, email, password))
                     navController.navigate(route = Route.SIGNIN)
                 }, modifier = modifier
                     .fillMaxWidth()
