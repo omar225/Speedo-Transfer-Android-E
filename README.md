@@ -13,6 +13,18 @@ The app includes nested navigation, handles intents, and shows a complete user i
 - **Transfer Flow Simulation**: Demonstrates a simulated money transfer between accounts, showcasing how the app will function with backend support.
 - **Scalable Architecture**: The app is structured to support the future integration of API services with minimal adjustments.
 
+## Tech Stack
+- **Kotlin**: The primary programming language used for the app.
+- **Jetpack Compose**: For building the user interface.
+- **MVVM Architecture**: Ensuring separation of concerns and a scalable, maintainable codebase.
+- **Retrofit**: For making network requests to the bank's API.
+- **Coroutines**: For managing asynchronous tasks efficiently.
+- **Shared Preferences**: For lightweight data storage, such as user settings and preferences.
+- **DataStore**: A modern, asynchronous storage solution for handling more complex or larger data sets than Shared Preferences.
+- **Gson**: For serializing and deserializing JSON data to Kotlin objects.
+- **StateFlow**: A state-holder observable flow for managing UI state lifecycle-awarely.
+
+
 ## Future Enhancements
 - **Backend API Integration**: The next deployment will include integration with a backend service to manage user accounts and handle real-time money transfers between users.
   
