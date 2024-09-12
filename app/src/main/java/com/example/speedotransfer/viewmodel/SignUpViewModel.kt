@@ -5,31 +5,32 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.speedotransfer.model.AppAPIService
 import com.example.speedotransfer.model.UserSignUp
+import com.example.speedotransfer.model.UserSignUpResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
-class SignUpViewModel: ViewModel() {
+class SignUpViewModel : ViewModel() {
 
-    private val _signup = MutableStateFlow(UserSignUp())
+    private val _signup = MutableStateFlow<Result<UserSignUpResponse>?>(null)
     val signup = _signup.asStateFlow()
-
-    private val _hasError = MutableStateFlow(false)
-    val hasError = _hasError.asStateFlow()
-
 
     fun signup(signupRequest: UserSignUp) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _signup.update {
-                    AppAPIService.callable.signup(signupRequest)
+                val response = AppAPIService.callable.signup(signupRequest)
+                if (response.isSuccessful && response.body() != null) {
+                    _signup.value = Result.success(response.body()!!)
+                } else {
+                    _signup.value = Result.failure(HttpException(response))
                 }
-                _hasError.update { false }
             } catch (e: Exception) {
-                Log.d("trace", "Recipe Error: ${e.message}")
-                _hasError.update { true }
+                Log.d("trace", "Signup Error: ${e.message}")
+                _signup.value = Result.failure(e)
             }
         }
     }

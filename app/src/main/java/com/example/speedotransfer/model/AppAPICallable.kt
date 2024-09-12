@@ -8,12 +8,11 @@ interface AppAPICallable {
     @POST("login")
     suspend fun login(
         @Body loginRequest: UserLogin
-    ): Response<UserLogin>
+    ): Response<UserLoginResponse>
+
     @POST("signup")
     suspend fun signup(
         @Body signupRequest: UserSignUp
-    ): Response<UserSignUp>
-
-
+    ): Response<UserSignUpResponse>
 
 }

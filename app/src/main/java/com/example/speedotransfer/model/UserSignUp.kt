@@ -8,3 +8,11 @@ class UserSignUp (
     val  dateOfBirth: String="",
     val  country: String=""
     )
+
+
+data class UserSignUpResponse(
+     val id:Int,
+   val name: String,
+   val email:String,
+    val accountNumber: String
+)
