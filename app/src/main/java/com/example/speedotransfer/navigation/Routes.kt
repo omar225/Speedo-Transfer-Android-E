@@ -42,6 +42,9 @@ import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G200
 import com.example.speedotransfer.ui.theme.P300
 import androidx.compose.material.Icon
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.delay
 
 object Route{
 
@@ -93,6 +96,7 @@ sealed class NavigationItem(val route: String, val icon: Int, val title: String)
 @Composable
 fun AppNavHost(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
+
     NavHost(navController = navController, startDestination = Route.ONBOARDINGSCREEN) {
 
         onboardingGraph(navController)

@@ -68,6 +68,7 @@ fun TextFields(
     inputText: String,
     inputTextField: String,
     image: Int? = null,
+    transfer: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     var input by remember {
@@ -84,9 +85,11 @@ fun TextFields(
             .padding(top = 12.dp),
         value = input,
         onValueChange = { input = it },
-        textStyle = AppTypography.bodySmall,
+        textStyle = if (transfer) AppTypography.titleSemiBold else AppTypography.bodySmall,
         shape = RoundedCornerShape(4.dp),
         singleLine = true,
+        keyboardOptions = if (transfer) KeyboardOptions(keyboardType = KeyboardType.Number)
+        else KeyboardOptions(keyboardType = KeyboardType.Unspecified),
         placeholder = { Text(text = inputTextField, color = G70) },
         colors = TextFieldDefaults.colors(
             focusedTextColor = G700,
@@ -120,7 +123,7 @@ fun PasswordTextFields(
     inputText: String,
     inputTextField: String,
     modifier: Modifier = Modifier
-) : String {
+): String {
     var passwordField by remember {
         mutableStateOf("")
     }
@@ -193,9 +196,9 @@ fun PasswordTextFields(
 fun ConfirmPasswordTextFields(
     inputText: String,
     inputTextField: String,
-    passedVal:String,
+    passedVal: String,
     modifier: Modifier = Modifier
-){
+) {
     var passwordField by remember {
         mutableStateOf("")
     }
@@ -208,9 +211,9 @@ fun ConfirmPasswordTextFields(
         mutableStateOf(true)
     }
 
-    if(passedVal == passwordField){
+    if (passedVal == passwordField) {
         isValid = true
-    }else{
+    } else {
         isValid = false
     }
 

@@ -57,7 +57,7 @@ fun OnBoardingScreenOne(navController: NavController, modifier: Modifier = Modif
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextButton(
-                onClick = { navController.navigate(Route.AUTH) }, modifier = modifier
+                onClick = { navController.navigate(Route.SIGNUP) }, modifier = modifier
                     .align(Alignment.End)
                     .padding(top = 40.dp)
             ) {
@@ -112,7 +112,7 @@ fun OnBoardingScreenTwo(navController: NavController, modifier: Modifier = Modif
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextButton(
-                onClick = { navController.navigate(Route.AUTH) }, modifier = modifier
+                onClick = { navController.navigate(Route.SIGNUP) }, modifier = modifier
                     .align(Alignment.End)
                     .padding(top = 40.dp)
             ) {
@@ -168,7 +168,7 @@ fun OnBoardingScreenThree(navController: NavController, modifier: Modifier = Mod
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextButton(
-                onClick = { navController.navigate(Route.AUTH) }, modifier = modifier
+                onClick = { navController.navigate(Route.SIGNUP) }, modifier = modifier
                     .align(Alignment.End)
                     .padding(top = 40.dp)
             ) {
@@ -188,7 +188,7 @@ fun OnBoardingScreenThree(navController: NavController, modifier: Modifier = Mod
                 modifier = modifier.padding(16.dp)
             )
             Button(
-                onClick = { navController.navigate(Route.AUTH) }, modifier = modifier
+                onClick = { navController.navigate(Route.SIGNUP) }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
                     .height(50.dp),
@@ -248,7 +248,7 @@ fun OnboardingScreenDots(page: Int, modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun preview() {
+private fun OnboardingScreenOnepreview() {
     OnBoardingScreenOne(navController = rememberNavController())
 
 }

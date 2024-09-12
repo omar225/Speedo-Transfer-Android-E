@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.speedotransfer.ui.errorscreens.ErrorConnection
 import com.example.speedotransfer.ui.mainscreens.FavouriteScreen
 import com.example.speedotransfer.ui.mainscreens.HomeScreen
 import com.example.speedotransfer.ui.mainscreens.MoreScreen
@@ -44,6 +45,5 @@ fun MainScreensGraph(navController: NavHostController, modifier:Modifier=Modifie
         composable(route= Route.PROFILEINFORMATION) { ProfileInformationScreen(navController) }
         composable(route= Route.EDITPROFILE) { EditProfileScreen(navController) }
         composable(route= Route.CHANGEPASSWORD) { ChangePasswordScreen(navController) }
-
     }
 }

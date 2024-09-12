@@ -3,11 +3,14 @@ package com.example.speedotransfer.ui.transaction
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,11 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
@@ -57,8 +62,19 @@ fun TransactionHistory(navController: NavHostController, modifier: Modifier = Mo
             )
     ) {
         item {
-            Row(modifier = modifier.fillMaxWidth()) {
-                IconButton(onClick = { navController.navigate(Route.HOME) }) {
+            Spacer(modifier = modifier.height(40.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                IconButton(
+                    modifier = modifier
+                        .size(24.dp),
+                    onClick = { navController.navigate(Route.HOME) }
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.drop_down),
                         contentDescription = "back button",
@@ -67,10 +83,11 @@ fun TransactionHistory(navController: NavHostController, modifier: Modifier = Mo
 
                 }
                 Text(
-                    text = "Transactions", modifier = modifier
-                        .fillMaxWidth()
-                        .padding(start = 90.dp)
-                        .align(Alignment.CenterVertically), style = AppTypography.titleMedium
+                    text = "Transactions",
+                    style = AppTypography.titleMedium,
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center
                 )
 
             }
@@ -79,15 +96,13 @@ fun TransactionHistory(navController: NavHostController, modifier: Modifier = Mo
                 style = AppTypography.titleSemiBold,
                 modifier = modifier.padding(top = 30.dp)
             )
-
-
         }
         item() {
             Card(
                 modifier = modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 12.dp)
-                    .clickable { navController.navigate(Route.TRASACTIONDETAILS)},
+                    .clickable { navController.navigate(Route.TRASACTIONDETAILS) },
                 colors = CardDefaults.cardColors(
                     G0
                 )
@@ -145,7 +160,7 @@ fun TransactionHistory(navController: NavHostController, modifier: Modifier = Mo
                         )
                         Box(
                             modifier = modifier
-                                .padding( top = 16.dp)
+                                .padding(top = 16.dp)
                                 .align(Alignment.End)
                                 .background(
                                     color = LightGreen,
@@ -237,7 +252,7 @@ fun TransactionHistory(navController: NavHostController, modifier: Modifier = Mo
                         )
                         Box(
                             modifier = modifier
-                                .padding( top = 16.dp)
+                                .padding(top = 16.dp)
                                 .align(Alignment.End)
                                 .background(
                                     color = P50,
@@ -268,6 +283,14 @@ fun TransactionHistory(navController: NavHostController, modifier: Modifier = Mo
         }
 
     }
+}
+
+@Preview
+@Composable
+private fun TransactionListPreview() {
+
+    TransactionHistory(navController = rememberNavController())
+
 }
 
 

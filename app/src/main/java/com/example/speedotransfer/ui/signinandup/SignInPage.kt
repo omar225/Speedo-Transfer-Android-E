@@ -120,6 +120,7 @@ fun SignIn(navController: NavController,modifier: Modifier = Modifier) {
 fun SignInFields(navController: NavController,modifier: Modifier) {
     Column {
         TextFields("Email", "Enter your email address", R.drawable.email)
+        TextFields("Account Number", "Enter your Account Number")
         PasswordTextFields("Password", "Enter your password")
         Button(
             onClick = { navController.navigate(Route.MAINAPP)
