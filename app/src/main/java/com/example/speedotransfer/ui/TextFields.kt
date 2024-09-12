@@ -70,7 +70,7 @@ fun TextFields(
     image: Int? = null,
     transfer: Boolean = false,
     modifier: Modifier = Modifier
-) {
+) :String {
     var input by remember {
         mutableStateOf("")
     }
@@ -116,6 +116,7 @@ fun TextFields(
             }
         }
     )
+    return input
 }
 
 @Composable

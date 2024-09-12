@@ -36,7 +36,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
-import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.ui.navigation.Route
 import com.example.speedotransfer.ui.TextFields
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0

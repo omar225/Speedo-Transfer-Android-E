@@ -42,7 +42,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.MainActivity
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
-import com.example.speedotransfer.navigation.Route
+import com.example.speedotransfer.ui.navigation.Route
 import com.example.speedotransfer.ui.ConfirmPasswordTextFields
 import com.example.speedotransfer.ui.CountryPickerField
 import com.example.speedotransfer.ui.DatePickerField
@@ -58,6 +58,10 @@ import com.example.speedotransfer.ui.theme.P500
 @Composable
 fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
 
+
+    var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var isSignupPressed by remember { mutableStateOf(false) }
 
     Box(
@@ -96,12 +100,12 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
                     .padding(vertical = 60.dp),
                 style = AppTypography.h2
             )
-            TextFields("Full Name", "Enter your Full Name", R.drawable.user)
-            TextFields("Email", "Enter your email address", R.drawable.email)
-            val password = PasswordTextFields("Password", "Enter your password")
+            name = TextFields("Full Name", "Enter your Full Name", R.drawable.user)
+            email = TextFields("Email", "Enter your email address", R.drawable.email)
+            password = PasswordTextFields("Password", "Enter your password")
             ConfirmPasswordTextFields("Confirm Password", "Enter your password", password)
             Button(
-                onClick = { navController.navigate(route = Route.COMPLETEPROFILE) },
+                onClick = { navController.navigate(route = "${Route.COMPLETEPROFILE}/${name}/${email}/${password}")},
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
@@ -142,7 +146,15 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SecondSignUp(navController: NavController,firstTime: Boolean  ,context: Context , modifier: Modifier = Modifier) {
+fun SecondSignUp(
+    navController: NavController,
+    firstTime: Boolean,
+    context: Context,
+    name: String = "",
+    email: String = "",
+    password: String = "",
+    modifier: Modifier = Modifier
+) {
     Box(
         Modifier
             .fillMaxSize()
@@ -207,9 +219,11 @@ fun SecondSignUp(navController: NavController,firstTime: Boolean  ,context: Cont
             DatePickerField("Date of Birth", "DD/MM/YYY")
             Button(
                 onClick = {
-                    val writer = context.getSharedPreferences("FirstTime", Context.MODE_PRIVATE).edit()
+                    val writer =
+                        context.getSharedPreferences("FirstTime", Context.MODE_PRIVATE).edit()
                     writer.putBoolean("firstTime", false).apply()
-                    navController.navigate(route = Route.SIGNIN) }, modifier = modifier
+                    navController.navigate(route = Route.SIGNIN)
+                }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp)
                     .height(50.dp),
@@ -239,7 +253,8 @@ fun SecondSignUp(navController: NavController,firstTime: Boolean  ,context: Cont
                         .padding(start = 4.dp)
                         .clickable {
 
-                            navController.navigate(route = Route.SIGNIN) }
+                            navController.navigate(route = Route.SIGNIN)
+                        }
 
                 )
             }
@@ -253,6 +268,10 @@ fun SecondSignUp(navController: NavController,firstTime: Boolean  ,context: Cont
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
-    SecondSignUp(navController = rememberNavController(), firstTime = true, context = LocalContext.current)
+    SecondSignUp(
+        navController = rememberNavController(),
+        firstTime = true,
+        context = LocalContext.current
+    )
 
 }

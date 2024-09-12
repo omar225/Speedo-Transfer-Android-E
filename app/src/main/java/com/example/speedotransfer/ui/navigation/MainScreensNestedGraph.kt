@@ -1,4 +1,4 @@
-package com.example.speedotransfer.navigation
+package com.example.speedotransfer.ui.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable

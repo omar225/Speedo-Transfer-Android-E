@@ -1,4 +1,4 @@
-package com.example.speedotransfer.navigation
+package com.example.speedotransfer.ui.navigation
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -99,7 +99,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
     val reader = context.getSharedPreferences("FirstTime", Context.MODE_PRIVATE)
     val firstTime = reader.getBoolean("firstTime", true)
 
-    NavHost(navController = navController, startDestination = if(firstTime) Route.ONBOARDINGSCREEN else  Route.AUTH) {
+    NavHost(navController = navController, startDestination = if(firstTime) Route.ONBOARDINGSCREEN else Route.AUTH) {
         if(firstTime){
             onboardingGraph(navController)
         }

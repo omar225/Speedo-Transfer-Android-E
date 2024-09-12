@@ -1,4 +1,4 @@
-package com.example.speedotransfer.navigation
+package com.example.speedotransfer.ui.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
