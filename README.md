@@ -42,3 +42,7 @@ The app includes nested navigation, handles intents, and shows a complete user i
 
 ## Demo
   
+
+https://github.com/user-attachments/assets/84781374-e588-444b-92a9-e3b7821c2412
+
+
