@@ -97,7 +97,7 @@ sealed class NavigationItem(val route: String, val icon: Int, val title: String)
    // object myCards: NavigationItem(Route.FAVOURITES, R.drawable.cards_1, "My cards")
     object Transfer : NavigationItem(Route.AMONT, R.drawable.transfer_1, "Transfer")
 }
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
 @Composable
 fun AppNavHost(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
@@ -163,10 +163,8 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                 }
             )
 
-
-
-            {
-                        MainScreensGraph(navControllerTwo) {
+            {innerPadding->
+                        MainScreensGraph(navControllerTwo,modifier.padding(innerPadding)) {
                             navController.navigate(Route.AUTH) {
                                 popUpTo(0)
                             }
