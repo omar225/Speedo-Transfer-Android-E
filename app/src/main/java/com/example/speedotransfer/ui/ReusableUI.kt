@@ -3,21 +3,16 @@ package com.example.speedotransfer.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Card
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
@@ -32,6 +27,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -41,15 +38,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
 import com.example.speedotransfer.ui.signinandup.validatePassword
 import com.example.speedotransfer.ui.theme.AppTypography
@@ -60,20 +55,20 @@ import com.example.speedotransfer.ui.theme.G10
 import com.example.speedotransfer.ui.theme.G70
 import com.example.speedotransfer.ui.theme.G700
 import com.example.speedotransfer.ui.theme.P50
+import com.example.speedotransfer.ui.transferscreens.AmontScreen
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
 fun TextFields(
     inputText: String,
-    inputTextField: String,
+    secondInputText: String,
+    inputTextField: MutableState<String>,
     image: Int? = null,
-    transfer: Boolean = false,
+    type: KeyboardType,
     modifier: Modifier = Modifier
-) :String {
-    var input by remember {
-        mutableStateOf("")
-    }
+)  {
+
     Text(
         text = inputText,
         style = AppTypography.bodyLarge,
@@ -83,14 +78,13 @@ fun TextFields(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 12.dp),
-        value = input,
-        onValueChange = { input = it },
-        textStyle = if (transfer) AppTypography.titleSemiBold else AppTypography.bodySmall,
+        value = inputTextField.value,
+        onValueChange = { inputTextField.value = it },
+        textStyle = AppTypography.bodySmall,
         shape = RoundedCornerShape(4.dp),
         singleLine = true,
-        keyboardOptions = if (transfer) KeyboardOptions(keyboardType = KeyboardType.Number)
-        else KeyboardOptions(keyboardType = KeyboardType.Unspecified),
-        placeholder = { Text(text = inputTextField, color = G70) },
+        keyboardOptions = KeyboardOptions(keyboardType = type),
+        placeholder = { Text(text = secondInputText, color = G70) },
         colors = TextFieldDefaults.colors(
             focusedTextColor = G700,
             unfocusedTextColor = G700,
@@ -106,7 +100,9 @@ fun TextFields(
         ),
         trailingIcon = {
             if (image != null) {
-                IconButton(onClick = { }) {
+                IconButton(onClick = {
+                }
+                ) {
                     Icon(
                         painter = painterResource(id = image),
                         contentDescription = "",
@@ -116,18 +112,17 @@ fun TextFields(
             }
         }
     )
-    return input
+
 }
 
 @Composable
 fun PasswordTextFields(
     inputText: String,
-    inputTextField: String,
+    secondInputText: String,
+    inputTextField: MutableState<String>,
     modifier: Modifier = Modifier
-): String {
-    var passwordField by remember {
-        mutableStateOf("")
-    }
+) {
+
 
     var isPasswordShown by remember {
         mutableStateOf(true)
@@ -136,10 +131,20 @@ fun PasswordTextFields(
     var isValid by remember {
         mutableStateOf(true)
     }
+    isValid = validatePassword(inputTextField.value)
+
+    val color by remember {
+        derivedStateOf {
+            when{
+                inputTextField.value.isBlank()-> G700
+                isValid-> G700
+                else-> D300
+
+            }
+        }
+    }
 
 
-
-    isValid = validatePassword(passwordField)
 
     Text(
         text = inputText,
@@ -150,29 +155,39 @@ fun PasswordTextFields(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 12.dp),
-        value = passwordField,
-        onValueChange = { passwordField = it },
+        value = inputTextField.value,
+        onValueChange = { inputTextField.value = it
+
+        },
+
+        isError = !isValid && inputTextField.value.isNotBlank() ,
         textStyle = AppTypography.bodySmall,
         shape = RoundedCornerShape(4.dp),
         singleLine = true,
-        isError = !isValid,
-        placeholder = { Text(text = inputTextField, color = G70) },
+        placeholder = { Text(text = secondInputText, color = G70) },
         colors = TextFieldDefaults.colors(
             focusedTextColor = G700,
             unfocusedTextColor = G700,
             focusedContainerColor = G10,
             unfocusedContainerColor = G10,
-            focusedIndicatorColor = G700,
-            unfocusedIndicatorColor = G70,
-            focusedTrailingIconColor = G700,
-            unfocusedTrailingIconColor = G70,
-            cursorColor = G700,
+            focusedIndicatorColor = color,
+            unfocusedIndicatorColor = if(inputTextField.value.isBlank()) G70 else color,
+            focusedTrailingIconColor = color,
+            unfocusedTrailingIconColor =if(inputTextField.value.isBlank()) G70 else color,
             errorIndicatorColor = D300,
-            errorTrailingIconColor = D300,
-            errorCursorColor = G700,
             errorContainerColor = G10,
-            errorTextColor = G700,
+            errorTrailingIconColor = D300,
         ),
+        supportingText = {
+            if (!isValid && inputTextField.value.isNotBlank()) {
+                Text(
+                    text = "Password must be 6 characters with at least one capital letter, one small letter and a special character",
+                    color = Color.Red,
+                    style = AppTypography.bodySmall
+                )
+            }
+
+        },
         visualTransformation = if (isPasswordShown) PasswordVisualTransformation('*') else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         trailingIcon = {
@@ -190,7 +205,7 @@ fun PasswordTextFields(
         }
     )
 
-    return passwordField
+
 }
 
 @Composable
@@ -273,19 +288,19 @@ fun ConfirmPasswordTextFields(
 @Composable
 fun DatePickerField(
     inputText: String,
-    inputTextField: String,
+    secondInputText: String,
+    inputTextField: MutableState<String>,
     modifier: Modifier = Modifier
 ) {
 
     var isDatePickerShown by remember { mutableStateOf(false) }
-    var date by remember { mutableStateOf("") }
     var dateMillis by remember { mutableLongStateOf(0L) }
 
     if (isDatePickerShown)
         DatePickerChooser(onConfirm = {
             val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.US)
             dateMillis = it.selectedDateMillis!!
-            date = dateFormatter.format(dateMillis)
+            inputTextField.value = dateFormatter.format(dateMillis)
             isDatePickerShown = false
         }) {
             isDatePickerShown = false
@@ -300,13 +315,13 @@ fun DatePickerField(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 12.dp),
-        value = date,
-        onValueChange = { date = it },
+        value = inputTextField.value,
+        onValueChange = { inputTextField.value = it },
         textStyle = AppTypography.bodySmall,
         shape = RoundedCornerShape(4.dp),
         singleLine = true,
         readOnly = true,
-        placeholder = { Text(text = inputTextField, color = G70) },
+        placeholder = { Text(text = secondInputText, color = G70) },
         colors = TextFieldDefaults.colors(
             focusedTextColor = G700,
             unfocusedTextColor = G700,
@@ -333,8 +348,6 @@ fun DatePickerField(
     )
 
 }
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerChooser(
@@ -366,11 +379,11 @@ fun DatePickerChooser(
 @Composable
 fun CountryPickerField(
     inputText: String,
-    inputTextField: String,
+    secondInputText: String,
+    inputTextField: MutableState<String>,
     modifier: Modifier = Modifier
 ) {
     var isModalSheetShown by rememberSaveable { mutableStateOf(false) }
-    var selectedCountry by remember { mutableStateOf("") }
     val sheetState = rememberModalBottomSheetState()
 
 
@@ -383,8 +396,8 @@ fun CountryPickerField(
 
             ) {
             CountryList(
-                onCountrySelected = { country -> selectedCountry = country },
-                selectedCountry = selectedCountry
+                onCountrySelected = { country -> inputTextField.value = country },
+                selectedCountry = inputTextField.value
             )
 
         }
@@ -399,13 +412,13 @@ fun CountryPickerField(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 12.dp),
-        value = selectedCountry,
+        value = inputTextField.value,
         onValueChange = {},
         textStyle = AppTypography.bodySmall,
         shape = RoundedCornerShape(4.dp),
         singleLine = true,
         readOnly = true,
-        placeholder = { Text(text = inputTextField, color = G70) },
+        placeholder = { Text(text = secondInputText, color = G70) },
         colors = TextFieldDefaults.colors(
             focusedTextColor = G700,
             unfocusedTextColor = G700,
@@ -494,8 +507,3 @@ fun CountryList(
 }
 
 
-@Preview(showSystemUi = true)
-@Composable
-private fun CountryPickerFieldPreview() {
-    CountryPickerField("country", "Select your country")
-}

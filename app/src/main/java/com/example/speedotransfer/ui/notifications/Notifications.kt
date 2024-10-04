@@ -1,4 +1,4 @@
-package com.example.speedotransfer.ui.mainscreens
+package com.example.speedotransfer.ui.notifications
 
 
 import androidx.compose.foundation.Image
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
-import com.example.speedotransfer.ui.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G100
 import com.example.speedotransfer.ui.theme.G700
@@ -64,7 +64,7 @@ fun NotificationsScreen(navController: NavHostController, modifier: Modifier = M
             Row(modifier = modifier
                 .fillMaxWidth()
                 .padding(bottom = 20.dp)) {
-                IconButton(onClick = { navController.navigate(Route.HOME)}) {
+                IconButton(onClick = { navController.popBackStack()}) {
                     Icon(
                         painter = painterResource(id = R.drawable.drop_down),
                         contentDescription = "back button",
@@ -83,9 +83,13 @@ fun NotificationsScreen(navController: NavHostController, modifier: Modifier = M
                 )
 
             }
-            NotificationCard(moneyReceived = "1000", date = "12 Jul 2024", time = "09:00 PM", name = "Asmaa Dosuky")
-            NotificationCard(moneyReceived = "1000", date = "12 Jul 2024", time = "09:00 PM", name = "Asmaa Dosuky")
-            NotificationCard(moneyReceived = "1000", date = "12 Jul 2024", time = "09:00 PM", name = "Asmaa Dosuky")
+            LazyColumn {
+             items(6) {
+                 NotificationCard(moneyReceived = "500", date = "12 Sep 2024", time = "11:00 AM", name = "Omar Mohamed")
+
+             }
+            }
+
         }
     }
 
@@ -128,7 +132,7 @@ fun NotificationCard(moneyReceived: String, date: String, time: String, name: St
 
                 Text(text = "Received Transactions", style = AppTypography.bodyMedium)
                 Text(
-                    text = "You have received $moneyReceived USD from $name 1234xxxx",
+                    text = "You have received $moneyReceived EGP from $name 1234xxxx",
                     style = AppTypography.bodyLarge,
                     textAlign = TextAlign.Start,
                     color = G700

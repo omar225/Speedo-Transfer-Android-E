@@ -16,21 +16,19 @@ import retrofit2.HttpException
 
 class SignUpViewModel : ViewModel() {
 
-    private val _signup = MutableStateFlow<Result<UserSignUpResponse>?>(null)
+    private val _signup = MutableStateFlow<UserSignUpResponse?>(null)
     val signup = _signup.asStateFlow()
+
+
 
     fun signup(signupRequest: UserSignUp) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = AppAPIService.callable.signup(signupRequest)
-                if (response.isSuccessful && response.body() != null) {
-                    _signup.value = Result.success(response.body()!!)
-                } else {
-                    _signup.value = Result.failure(HttpException(response))
-                }
+                _signup.value= AppAPIService.callable.signup(signupRequest)
+
             } catch (e: Exception) {
                 Log.d("trace", "Signup Error: ${e.message}")
-                _signup.value = Result.failure(e)
+
             }
         }
     }

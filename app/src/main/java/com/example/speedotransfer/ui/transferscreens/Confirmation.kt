@@ -1,5 +1,6 @@
 package com.example.speedotransfer.ui.transferscreens
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -28,19 +29,24 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.Transfer
 import com.example.speedotransfer.ui.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G100
@@ -51,9 +57,20 @@ import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P50
 import com.example.speedotransfer.ui.theme.S400
+import com.example.speedotransfer.viewmodel.TransferViewModel
 
 @Composable
-fun ConfirmationScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+fun ConfirmationScreen(navController: NavHostController, amountSent:String, recipientName:String, recipientAccount:String, transferViewModel: TransferViewModel =viewModel(), modifier: Modifier = Modifier) {
+    val transferResponse by transferViewModel.transferResponse.collectAsState()
+    val context = LocalContext.current
+    transferResponse?.let {
+        if(it.status=="ACCEPTED")
+            navController.navigate("${Route.PAYMENT}/${amountSent}/${recipientName}/${recipientAccount}")
+        else
+            Toast.makeText(context, "Transfer failed please try again", Toast.LENGTH_LONG).show()
+
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -78,7 +95,7 @@ fun ConfirmationScreen(navController: NavHostController, modifier: Modifier = Mo
             IconButton(
                 modifier = modifier
                     .size(24.dp),
-                onClick = { navController.navigate(Route.AMONT) }
+                onClick = { navController.popBackStack() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.drop_down),
@@ -129,7 +146,7 @@ fun ConfirmationScreen(navController: NavHostController, modifier: Modifier = Mo
         }
         Spacer(modifier = modifier.height(24.dp))
         Text(
-            text = "1000 EGP", modifier = modifier
+            text = "$amountSent EGP", modifier = modifier
                 .padding(horizontal = 16.dp), style = AppTypography.titleMedium
         )
         Spacer(modifier = modifier.height(24.dp))
@@ -147,7 +164,7 @@ fun ConfirmationScreen(navController: NavHostController, modifier: Modifier = Mo
                 .padding(horizontal = 16.dp)
         ) {
             Text(text = "Total amount", style = AppTypography.bodyMedium)
-            Text(text = "1000 EGP",style = AppTypography.bodySmall)
+            Text(text = "$amountSent EGP",style = AppTypography.bodySmall)
 
         }
         HorizontalDivider(
@@ -190,7 +207,7 @@ fun ConfirmationScreen(navController: NavHostController, modifier: Modifier = Mo
                                color = P300,
                                modifier = modifier.padding(vertical = 16.dp)
                            )
-                           Text(text = "Asmaa Dosuky", style = AppTypography.titleSemiBold)
+                           Text(text = "Abdelrahman Ashraf", style = AppTypography.titleSemiBold)
                            Text(
                                text = "Account xxxx7890",
                                style = AppTypography.bodySmall,
@@ -231,9 +248,9 @@ fun ConfirmationScreen(navController: NavHostController, modifier: Modifier = Mo
                                color = P300,
                                modifier = modifier.padding(vertical = 16.dp)
                            )
-                           Text(text = "Jonathon Smith", style = AppTypography.titleSemiBold)
+                           Text(text = recipientName, style = AppTypography.titleSemiBold)
                            Text(
-                               text = "Account xxxx7890",
+                               text = "Account xxxx${recipientAccount.takeLast(4)}",
                                style = AppTypography.bodySmall,
                                color = G100,
                                modifier = modifier.padding(vertical = 16.dp)
@@ -260,7 +277,10 @@ fun ConfirmationScreen(navController: NavHostController, modifier: Modifier = Mo
         }
         Spacer(modifier = modifier.height(16.dp))
         Button(
-            onClick = {navController.navigate(Route.PAYMENT) }, modifier = modifier
+            onClick = {
+
+                transferViewModel.transfer(Transfer(amountSent,recipientAccount))
+                }, modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .height(50.dp),
@@ -271,7 +291,10 @@ fun ConfirmationScreen(navController: NavHostController, modifier: Modifier = Mo
         }
         Spacer(modifier = modifier.height(16.dp))
         TextButton(
-            onClick = { navController.navigate(Route.AMONT) },
+            onClick = {
+
+
+                navController.navigate(Route.AMONT) },
             modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
@@ -289,5 +312,5 @@ fun ConfirmationScreen(navController: NavHostController, modifier: Modifier = Mo
 @Preview
 @Composable
 private fun ConfirmationScreenPreview() {
-    ConfirmationScreen(navController = rememberNavController())
+    ConfirmationScreen(navController = rememberNavController(),"1000","Omar Khaled","123456789789")
 }

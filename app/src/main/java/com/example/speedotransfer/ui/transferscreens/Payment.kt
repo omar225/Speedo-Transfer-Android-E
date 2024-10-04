@@ -1,5 +1,6 @@
 package com.example.speedotransfer.ui.transferscreens
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -27,19 +28,24 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.AddFavourites
 import com.example.speedotransfer.ui.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G100
@@ -51,9 +57,18 @@ import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P50
 import com.example.speedotransfer.ui.theme.S400
+import com.example.speedotransfer.viewmodel.FavouritesViewModel
 
 @Composable
-fun PaymentScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+fun PaymentScreen(navController: NavHostController,amountSent:String,recipientName:String,recipientAccount:String,favouritesViewModel:FavouritesViewModel=viewModel(), modifier: Modifier = Modifier) {
+    val addToFavouriteResponse by favouritesViewModel.addToFavouritesResponse.collectAsState()
+    val context = LocalContext.current
+    addToFavouriteResponse?.let {
+        if(it.status=="ACCEPTED")
+            Toast.makeText(context, "Added to favourites list successfully", Toast.LENGTH_LONG).show()
+        else
+            Toast.makeText(context, "Adding to favourites list failed please try again", Toast.LENGTH_LONG).show()
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -78,7 +93,7 @@ fun PaymentScreen(navController: NavHostController, modifier: Modifier = Modifie
             IconButton(
                 modifier = modifier
                     .size(24.dp),
-                onClick = { navController.navigate(Route.CONFIRMATION) }
+                onClick = { navController.popBackStack() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.drop_down),
@@ -171,7 +186,7 @@ fun PaymentScreen(navController: NavHostController, modifier: Modifier = Modifie
                             color = P300,
                             modifier = modifier.padding(vertical = 16.dp)
                         )
-                        Text(text = "Asmaa Dosuky", style = AppTypography.titleSemiBold)
+                        Text(text = "Abdelrahman Ashraf", style = AppTypography.titleSemiBold)
                         Text(
                             text = "Account xxxx7890",
                             style = AppTypography.bodySmall,
@@ -213,9 +228,9 @@ fun PaymentScreen(navController: NavHostController, modifier: Modifier = Modifie
                             color = P300,
                             modifier = modifier.padding(vertical = 16.dp)
                         )
-                        Text(text = "Jonathon Smith", style = AppTypography.titleSemiBold)
+                        Text(text = recipientName, style = AppTypography.titleSemiBold)
                         Text(
-                            text = "Account xxxx7890",
+                            text = "Account xxxx${recipientAccount.takeLast(4)}",
                             style = AppTypography.bodySmall,
                             color = G100,
                             modifier = modifier.padding(vertical = 16.dp)
@@ -248,7 +263,7 @@ fun PaymentScreen(navController: NavHostController, modifier: Modifier = Modifie
                 .padding(horizontal = 16.dp)
         ) {
             Text(text = "Transfer amount", style = AppTypography.bodySmall)
-            Text(text = "1000 EGP",style = AppTypography.bodySmall)
+            Text(text = "$amountSent EGP",style = AppTypography.bodySmall)
 
         }
         HorizontalDivider(
@@ -269,7 +284,9 @@ fun PaymentScreen(navController: NavHostController, modifier: Modifier = Modifie
         }
         Spacer(modifier = modifier.height(16.dp))
         TextButton(
-            onClick = { navController.navigate(Route.AMONT) },
+            onClick = {
+                favouritesViewModel.addToFavourites(AddFavourites(recipientAccount,recipientAccount))
+            },
             modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
@@ -287,7 +304,7 @@ fun PaymentScreen(navController: NavHostController, modifier: Modifier = Modifie
 @Preview
 @Composable
 private fun PaymentScreenPreview() {
-    PaymentScreen(rememberNavController())
+    PaymentScreen(rememberNavController(),"10000","Omar Khaled","12312345678")
     
 }
 

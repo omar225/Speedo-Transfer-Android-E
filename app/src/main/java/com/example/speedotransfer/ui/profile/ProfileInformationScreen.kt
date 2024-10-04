@@ -37,7 +37,7 @@ import com.example.speedotransfer.ui.theme.Login
 
 @Composable
 fun ProfileInformationScreen(navController: NavHostController, modifier: Modifier = Modifier) {
-    val name = "Asmaa Dosuky"
+    val name = "Abdelrahman Ashraf"
     Box(
         Modifier
             .fillMaxSize()
@@ -73,7 +73,7 @@ fun ProfileInformationScreen(navController: NavHostController, modifier: Modifie
                     contentDescription = "back icon",
                     tint = G900,
                     modifier = modifier
-                        .clickable {navController.navigate(Route.PROFILE) }
+                        .clickable {navController.popBackStack() }
                         .size(24.dp)
                 )
 
@@ -98,7 +98,7 @@ fun ProfileInformationScreen(navController: NavHostController, modifier: Modifie
 
             ProfileInfoItems(
                 title = "Email",
-                description = "Asmaa@gmail.com"
+                description = "Abdelrahman@gmail.com"
             )
 
             ProfileInfoItems(

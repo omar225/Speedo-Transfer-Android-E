@@ -45,7 +45,7 @@ import com.example.speedotransfer.ui.theme.P50
 
 @Composable
 fun ProfileScreen(navController: NavHostController, modifier: Modifier = Modifier) {
-    val name = "Asmaa Dosuky"
+    val name = "Abdelrahman Ashraf"
     Box(
         Modifier
             .fillMaxSize()
@@ -78,7 +78,7 @@ fun ProfileScreen(navController: NavHostController, modifier: Modifier = Modifie
             ) {
                 IconButton (
                     modifier = modifier.size(24.dp),
-                    onClick = {navController.navigate(Route.MORE)}
+                    onClick = {navController.popBackStack()}
                 ){
                     Icon(
                     painter = painterResource(id = R.drawable.drop_down),

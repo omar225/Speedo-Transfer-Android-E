@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -36,6 +37,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,10 +57,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.FavouriteResponse
 import com.example.speedotransfer.ui.navigation.Route
 import com.example.speedotransfer.ui.TextFields
 import com.example.speedotransfer.ui.theme.AppTypography
@@ -72,105 +77,39 @@ import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P50
 import com.example.speedotransfer.ui.theme.P75
+import com.example.speedotransfer.viewmodel.FavouritesViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AmontScreen(navController: NavHostController, modifier: Modifier = Modifier) {
-    var amountSent by rememberSaveable {
+fun AmontScreen(navController: NavHostController, favouritesViewModel: FavouritesViewModel=viewModel(), modifier: Modifier = Modifier) {
+    val favourites by favouritesViewModel.favourites.collectAsState()
+
+    var amountSent = rememberSaveable {
         mutableStateOf("")
     }
-    var amountReceived by rememberSaveable {
+
+    var recipientName = rememberSaveable {
         mutableStateOf("")
     }
-    var recipientName by rememberSaveable {
-        mutableStateOf("")
-    }
-    var recipientAccount by rememberSaveable {
+    var recipientAccount = rememberSaveable {
         mutableStateOf("")
     }
 
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(false) }
+    var showBottomSheet = remember { mutableStateOf(false) }
 
-    if (showBottomSheet) {
+    if (showBottomSheet.value) {
         ModalBottomSheet(
             modifier = modifier.fillMaxSize(),
             onDismissRequest = {
-                showBottomSheet = false
+                showBottomSheet.value = false
             },
             sheetState = sheetState
         ) {
             // Sheet content
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
-            {
-                Icon(
-                    painter = painterResource(id = R.drawable.favorite),
-                    contentDescription = "",
-                    modifier = modifier
-                        .size(20.dp),
-                    tint = P300
-                )
-                Text(
-                    text = "Favourite List",
-                    modifier = modifier.padding(start = 8.dp),
-                    style = AppTypography.bodyLarge,
-                    color = P300
-                )
-            }
-
-            Card(
-                colors = CardDefaults.cardColors(P50),
-                border = BorderStroke(color = P75, width = 2.dp),
-                modifier = modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .clickable { showBottomSheet = false }
-            ) {
-
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            alignment = Alignment.Center,
-                            painter = painterResource(id = R.drawable.bank),
-                            contentDescription = "",
-                            modifier = modifier
-                                .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
-
-                                .size(48.dp)
-                                .clip(shape = CircleShape)
-                                .background(color = G40)
-                        )
-
-                        Column() {
-
-                            Text(text = "Asmaa Dosuky", style = AppTypography.bodyMedium)
-                            Text(
-                                text = "Account xxxx7890",
-                                style = AppTypography.bodyLarge,
-                                color = G100,
-                                textAlign = TextAlign.Center
-                            )
-
-
-                        }
-                    }
-                }
-
-
-            }
-
+            FavouritesBottomSheet(favourites,recipientName, recipientAccount, showBottomSheet)
         }
     }
 
@@ -261,8 +200,10 @@ fun AmontScreen(navController: NavHostController, modifier: Modifier = Modifier)
         {
             TextFields(
                 inputText = "Amount",
-                inputTextField = "Enter Amount",
-                transfer = true,
+                "Enter your amount",
+                inputTextField = amountSent,
+                null,
+                KeyboardType.Number,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
 
@@ -285,7 +226,7 @@ fun AmontScreen(navController: NavHostController, modifier: Modifier = Modifier)
             )
 
             TextButton(
-                onClick = { showBottomSheet = true },
+                onClick = { showBottomSheet.value = true },
             )
             {
                 Icon(
@@ -314,19 +255,24 @@ fun AmontScreen(navController: NavHostController, modifier: Modifier = Modifier)
 
         }
         TextFields(
-            inputText = "Recipient Name",
-            inputTextField = "Enter Recipient Name",
+            inputText = "Recipient Name","Enter Recipient Name",
+            inputTextField = recipientName,
+            null,
+            KeyboardType.Unspecified,
             modifier = modifier.padding(horizontal = 16.dp)
         )
         TextFields(
-            inputText = "Recipient Account",
-            inputTextField = "Enter Recipient Account Number",
+            inputText = "Recipient Account","Enter Recipient Account Number",
+            inputTextField = recipientAccount,
+            null,
+            KeyboardType.Number,
             modifier = modifier.padding(horizontal = 16.dp)
         )
         Spacer(modifier = modifier.height(35.dp))
 
         Button(
-            onClick = { navController.navigate(Route.CONFIRMATION) }, modifier = modifier
+            enabled = amountSent.value.isNotBlank() && recipientName.value.isNotBlank() && recipientAccount.value.isNotBlank(),
+            onClick = { navController.navigate("${Route.CONFIRMATION}/${amountSent.value}/${recipientName.value}/${recipientAccount.value}") }, modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .height(51.dp),
@@ -338,6 +284,88 @@ fun AmontScreen(navController: NavHostController, modifier: Modifier = Modifier)
 
         Spacer(modifier = modifier.height(58.dp))
     }
+}
+
+@Composable
+fun FavouritesBottomSheet(favourites: List<FavouriteResponse>, recipientName: MutableState<String>, recipientAccount: MutableState<String>, showBottomSheet: MutableState<Boolean>, modifier: Modifier = Modifier) {
+    LazyColumn {
+
+        items(favourites.size) {item->
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+            {
+                Icon(
+                    painter = painterResource(id = R.drawable.favorite),
+                    contentDescription = "",
+                    modifier = modifier
+                        .size(20.dp),
+                    tint = P300
+                )
+                Text(
+                    text = "Favourite List",
+                    modifier = modifier.padding(start = 8.dp),
+                    style = AppTypography.bodyLarge,
+                    color = P300
+                )
+            }
+
+            Card(
+                colors = CardDefaults.cardColors(P50),
+                border = BorderStroke(color = P75, width = 2.dp),
+                modifier = modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .clickable {
+                        showBottomSheet.value = false
+                        recipientName.value = favourites[item].favourite_name!!
+                        recipientAccount.value = favourites[item].favourite_accountNumber!!
+
+                    }
+            ) {
+
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            alignment = Alignment.Center,
+                            painter = painterResource(id = R.drawable.bank),
+                            contentDescription = "",
+                            modifier = modifier
+                                .padding(start = 20.dp, top = 20.dp, bottom = 20.dp)
+
+                                .size(48.dp)
+                                .clip(shape = CircleShape)
+                                .background(color = G40)
+                        )
+
+                        Column() {
+
+                            Text(text = favourites[item].favourite_name!!, style = AppTypography.bodyMedium)
+                            Text(
+                                text = favourites[item].favourite_accountNumber!!,
+                                style = AppTypography.bodyLarge,
+                                color = G100,
+                                textAlign = TextAlign.Center
+                            )
+
+
+                        }
+                    }
+                }
+
+
+            }
+        }
+    }
+
 }
 
 

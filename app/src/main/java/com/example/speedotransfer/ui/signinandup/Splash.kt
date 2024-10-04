@@ -5,17 +5,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import com.example.speedotransfer.ui.navigation.Route
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G0
 import com.example.speedotransfer.ui.theme.P500
+import com.example.speedotransfer.ui.theme.Splash
+import kotlinx.coroutines.delay
 
 @Composable
-fun Splash(modifier: Modifier = Modifier) {
+fun SplashScreen(navController: NavHostController,firstTime:Boolean,modifier: Modifier = Modifier) {
     Box(
         Modifier
-            .background(P500)
+            .background(Splash)
             .fillMaxSize()
     ) {
         Text(
@@ -27,4 +32,9 @@ fun Splash(modifier: Modifier = Modifier) {
             )
         )
     }
+    LaunchedEffect(Unit) {
+        delay(2000)
+        navController.navigate(if(firstTime) Route.ONBOARDINGSCREEN else Route.AUTH)
+    }
+
 }

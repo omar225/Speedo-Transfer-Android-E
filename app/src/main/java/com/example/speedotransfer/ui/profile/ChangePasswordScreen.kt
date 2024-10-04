@@ -19,6 +19,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -35,6 +39,7 @@ import com.example.speedotransfer.ui.CountryPickerField
 import com.example.speedotransfer.ui.DatePickerField
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.ui.TextFields
+import com.example.speedotransfer.ui.signinandup.validatePassword
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G900
 import com.example.speedotransfer.ui.theme.Home
@@ -44,6 +49,15 @@ import com.example.speedotransfer.ui.theme.P300
 @Composable
 fun ChangePasswordScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val name = "Asmaa Dosuky"
+    var oldPassword = remember {
+        mutableStateOf("")
+    }
+    var newPassword = remember {
+        mutableStateOf("")
+    }
+    var isValid by remember {
+        mutableStateOf( false)
+    }
     Box(
         Modifier
             .fillMaxSize()
@@ -74,7 +88,7 @@ fun ChangePasswordScreen(navController: NavHostController, modifier: Modifier = 
                     .fillMaxWidth()
                     .padding(0.dp, 16.dp, 0.dp, 16.dp)
             ) {
-                IconButton(onClick = { navController.navigate(Route.SETTINGS) }) {
+                IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
                         painter = painterResource(id = R.drawable.drop_down),
                         contentDescription = "back icon",
@@ -96,9 +110,11 @@ fun ChangePasswordScreen(navController: NavHostController, modifier: Modifier = 
 
             }
 
-            val password = PasswordTextFields(inputText = "Current Password", inputTextField = "Enter your password")
-            ConfirmPasswordTextFields(inputText = "New Password", inputTextField = "Enter your password",password)
+            PasswordTextFields( "Current Password","Enter your old password", inputTextField =oldPassword )
+            PasswordTextFields("New Password","Enter  new password", inputTextField =newPassword )
+            isValid= validatePassword(newPassword.value)
             Button(
+                enabled=isValid,
                 onClick = {navController.navigate(Route.SETTINGS) }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp)
@@ -116,5 +132,5 @@ fun ChangePasswordScreen(navController: NavHostController, modifier: Modifier = 
 @Preview
 @Composable
 private fun ChangePasswordScreenPreview() {
-    ChangePasswordScreen(rememberNavController())
+    ChangePasswordScreen(navController = rememberNavController())
 }

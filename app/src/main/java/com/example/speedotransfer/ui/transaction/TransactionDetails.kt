@@ -49,7 +49,7 @@ import com.example.speedotransfer.ui.theme.P50
 import com.example.speedotransfer.ui.theme.S400
 
 @Composable
-fun TransactionDetailsScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+fun TransactionDetailsScreen(navController: NavHostController,amount:String="1000",senderName:String="Abdelrahman Ashraf",senderAccountNumber:String="7890",receiverName:String="Omar Mohamed",receiverAccountNumber:String="1234",date:String ="20 Jul 2024 7:50 PM", modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -74,7 +74,7 @@ fun TransactionDetailsScreen(navController: NavHostController, modifier: Modifie
             IconButton(
                 modifier = modifier
                     .size(24.dp),
-                onClick = { navController.navigate(Route.TRANSACTIONS) }
+                onClick = { navController.popBackStack() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.drop_down),
@@ -101,16 +101,12 @@ fun TransactionDetailsScreen(navController: NavHostController, modifier: Modifie
         )
 
         Text(
-            text = "1000 EGP", modifier = modifier
+            text = "$amount EGP", modifier = modifier
                 .padding(top = 20.dp, bottom = 10.dp), style = AppTypography.titleSemiBold
         )
         Text(
             text = "Transfer amount", modifier = modifier
                 .padding(bottom = 10.dp), style = AppTypography.bodyLarge, color = G200
-        )
-        Text(
-            text = "Send money", modifier = modifier
-                .padding(bottom = 20.dp), style = AppTypography.bodyLarge, color = P300
         )
         Box(modifier= modifier
             .fillMaxSize()
@@ -144,9 +140,9 @@ fun TransactionDetailsScreen(navController: NavHostController, modifier: Modifie
                                 color = P300,
                                 modifier = modifier.padding(vertical = 16.dp)
                             )
-                            Text(text = "Asmaa Dosuky", style = AppTypography.titleSemiBold)
+                            Text(text = senderName, style = AppTypography.titleSemiBold)
                             Text(
-                                text = "Account xxxx7890",
+                                text = "Account xxxx${senderAccountNumber.takeLast(4)}",
                                 style = AppTypography.bodySmall,
                                 color = G100,
                                 modifier = modifier.padding(vertical = 16.dp)
@@ -186,9 +182,9 @@ fun TransactionDetailsScreen(navController: NavHostController, modifier: Modifie
                                 color = P300,
                                 modifier = modifier.padding(vertical = 16.dp)
                             )
-                            Text(text = "Jonathon Smith", style = AppTypography.titleSemiBold)
+                            Text(text = receiverName, style = AppTypography.titleSemiBold)
                             Text(
-                                text = "Account xxxx7890",
+                                text = "Account xxxx${receiverAccountNumber.takeLast(4)}",
                                 style = AppTypography.bodySmall,
                                 color = G100,
                                 modifier = modifier.padding(vertical = 16.dp)
@@ -226,7 +222,7 @@ fun TransactionDetailsScreen(navController: NavHostController, modifier: Modifie
                     modifier = modifier.padding(vertical = 16.dp)
                 )
                 Text(
-                    text = "1000EGP",
+                    text = "${amount}EGP",
                     style = AppTypography.bodySmall,
                     color = G100,
                     modifier = modifier
@@ -270,7 +266,7 @@ fun TransactionDetailsScreen(navController: NavHostController, modifier: Modifie
                     modifier = modifier.padding(vertical = 16.dp)
                 )
                 Text(
-                    text = "20 Jul 2024 7:50 PM",
+                    text = date,
                     style = AppTypography.bodySmall,
                     color = G100,
                     modifier = modifier

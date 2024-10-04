@@ -3,9 +3,8 @@
 
     <style name="Theme.SpeedoTransfer" parent="android:Theme.Material.Light.NoActionBar"/>
 
-    <style name="Theme.SpeedoTransfer.Splash" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash</item>
-        <item name="android:statusBarColor">@color/splash</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="Theme.SpeedoTransfer.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.SpeedoTransfer</item>
     </style>
 </resources>

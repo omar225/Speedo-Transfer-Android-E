@@ -209,7 +209,8 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
                         color = G200
                     )
                 }
-                IconButton(onClick = {  }){
+                IconButton(onClick = {val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.banquemisr.com"))
+                    navController.context.startActivity(webIntent)  }){
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
                         contentDescription = "back button",

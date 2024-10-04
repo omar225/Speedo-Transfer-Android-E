@@ -1,6 +1,6 @@
 package com.example.speedotransfer.model
 
-class UserSignUp (
+data class UserSignUp (
 
     val name: String="",
     val email: String="",

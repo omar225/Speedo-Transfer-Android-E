@@ -18,10 +18,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -32,6 +35,7 @@ import com.example.speedotransfer.ui.navigation.Route
 import com.example.speedotransfer.ui.CountryPickerField
 import com.example.speedotransfer.ui.DatePickerField
 import com.example.speedotransfer.ui.TextFields
+import com.example.speedotransfer.ui.signinandup.validateEmail
 import com.example.speedotransfer.ui.theme.AppTypography
 import com.example.speedotransfer.ui.theme.G900
 import com.example.speedotransfer.ui.theme.Home
@@ -41,6 +45,10 @@ import com.example.speedotransfer.ui.theme.P300
 @Composable
 fun EditProfileScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val name = "Asmaa Dosuky"
+    var nameAccount = remember { mutableStateOf("") }
+    var email = remember { mutableStateOf("") }
+    var selectedCountry = remember { mutableStateOf("") }
+    var selectedDate = remember { mutableStateOf("") }
     Box(
         Modifier
             .fillMaxSize()
@@ -76,7 +84,7 @@ fun EditProfileScreen(navController: NavHostController, modifier: Modifier = Mod
                     contentDescription = "back icon",
                     tint = G900,
                     modifier = modifier
-                        .clickable { navController.navigate(Route.SETTINGS)}
+                        .clickable { navController.popBackStack()}
                         .size(24.dp)
                 )
 
@@ -92,11 +100,13 @@ fun EditProfileScreen(navController: NavHostController, modifier: Modifier = Mod
 
             }
 
-            TextFields(inputText = "Full Name", inputTextField = "Enter Cardholder Name")
-            TextFields(inputText = "Email", inputTextField = "Enter Email")
-            CountryPickerField(inputText = "Country", inputTextField = "Select Country")
-            DatePickerField(inputText = "Date Of Birth" , inputTextField = "DD/MM/YYYY")
+            TextFields(inputText = "Full Name", "Enter your Full Name",inputTextField = nameAccount,R.drawable.user,KeyboardType.Unspecified)
+            TextFields(inputText = "Email", "Enter your email address",inputTextField = email,R.drawable.email,KeyboardType.Email)
+            CountryPickerField(inputText = "Country", "Select your country",inputTextField =selectedCountry)
+            DatePickerField(inputText = "Date Of Birth" ,"DD/MM/YYYY" ,inputTextField = selectedDate)
+            validateEmail(email.value)
             Button(
+                enabled=if(!validateEmail(email.value) && email.value.isNotEmpty() ) false else true,
                 onClick = {navController.navigate(Route.SETTINGS) }, modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp)

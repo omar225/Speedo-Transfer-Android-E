@@ -1,5 +1,7 @@
 package com.example.speedotransfer.ui.signinandup
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +22,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,14 +32,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.ui.PasswordTextFields
 import com.example.speedotransfer.R
+import com.example.speedotransfer.model.LoginRequestDTO
 import com.example.speedotransfer.ui.navigation.Route
 import com.example.speedotransfer.ui.TextFields
 import com.example.speedotransfer.ui.theme.AppTypography
@@ -44,10 +52,14 @@ import com.example.speedotransfer.ui.theme.G100
 import com.example.speedotransfer.ui.theme.G40
 import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
+import com.example.speedotransfer.viewmodel.LoginViewModel
 
 
 @Composable
-fun SignIn(navController: NavController,modifier: Modifier = Modifier) {
+fun SignIn(
+    navController: NavController, firstTime: Boolean,
+    context: Context, viewModelLogin: LoginViewModel = viewModel(), modifier: Modifier = Modifier
+) {
     Box(
         Modifier
             .fillMaxSize()
@@ -84,7 +96,7 @@ fun SignIn(navController: NavController,modifier: Modifier = Modifier) {
                 style = AppTypography.h2
             )
 
-            SignInFields(navController,modifier = modifier)
+            SignInFields(navController, context, firstTime, viewModelLogin, modifier = modifier)
 
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -117,13 +129,41 @@ fun SignIn(navController: NavController,modifier: Modifier = Modifier) {
 
 
 @Composable
-fun SignInFields(navController: NavController,modifier: Modifier) {
+fun SignInFields(
+    navController: NavController,
+    context: Context,
+    firstTime: Boolean,
+    viewModelLogin: LoginViewModel,
+    modifier: Modifier
+) {
+    var email = remember { mutableStateOf("") }
+    var password = remember { mutableStateOf("") }
+
+    val response by viewModelLogin.login.collectAsState()
+    LaunchedEffect(response) {
+        response?.let {
+            if (response?.status == "ACCEPTED")
+                navController.navigate(Route.MAINAPP)
+            else
+                Toast.makeText(navController.context, "Something went wrong", Toast.LENGTH_LONG)
+                    .show()
+        }
+    }
     Column {
-        TextFields("Email", "Enter your email address", R.drawable.email)
-        TextFields("Account Number", "Enter your Account Number")
-        PasswordTextFields("Password", "Enter your password")
+        TextFields("Email", "Enter your email address", email, R.drawable.email, KeyboardType.Email)
+
+        PasswordTextFields("Password", "Enter your password", password)
         Button(
-            onClick = { navController.navigate(Route.MAINAPP)
+            enabled = email.value.isNotBlank()  && password.value.isNotBlank() && validatePassword(
+                password.value
+            ) && validateEmail(email.value),
+            onClick = {
+                if (firstTime) {
+                    val writer =
+                        context.getSharedPreferences("FirstTime", Context.MODE_PRIVATE).edit()
+                    writer.putBoolean("firstTime", false).apply()
+                }
+                viewModelLogin.login(LoginRequestDTO(email.value, password.value, "296399380"))
 
             }, modifier = modifier
                 .fillMaxWidth()
@@ -138,7 +178,10 @@ fun SignInFields(navController: NavController,modifier: Modifier) {
 }
 
 @Composable
-fun TimeOut(navController: NavController,modifier: Modifier = Modifier) {
+fun TimeOut(
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
     var showNotification by remember { mutableStateOf(true) }
 
     Box(
@@ -204,10 +247,11 @@ fun TimeOut(navController: NavController,modifier: Modifier = Modifier) {
 
         ) {
 
-            Box(modifier = modifier
-                .fillMaxWidth()
-                .padding(top = 201.dp, bottom = 32.dp)
-            ){
+            Box(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(top = 201.dp, bottom = 32.dp)
+            ) {
                 Text(
                     text = "Welcome Back",
                     textAlign = TextAlign.Center,
@@ -226,16 +270,17 @@ fun TimeOut(navController: NavController,modifier: Modifier = Modifier) {
 
             }
 
-            SignInFields(navController , modifier = modifier)
+            SignInFields(
+                navController,
+                LocalContext.current,
+                false,
+                viewModelLogin = LoginViewModel(),
+                modifier = modifier
+            )
 
         }
     }
 
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun SignInPreview() {
-    SignIn(navController = rememberNavController())
-}
 

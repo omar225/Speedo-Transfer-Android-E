@@ -24,6 +24,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -31,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -47,13 +50,17 @@ import com.example.speedotransfer.ui.theme.Home
 import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P400
+import com.example.speedotransfer.viewmodel.TransactionsViewModel
 
 @Composable
-fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) {
-    val name = "Asmaa Dosuky"
+fun HomeScreen(navController: NavHostController, transactonViewModel: TransactionsViewModel=viewModel(), modifier: Modifier = Modifier) {
+    val name = "Abdelrahman Ashraf"
+    val name2 = "Omar Mohamed"
     val currentBalance = "100000EGP"
     val recentTransactions =
         listOf("Ahmed Mohamed", "Visa. Master Card. 1234", "Today 11:00", "500EGP")
+
+    val transactions by transactonViewModel.transactions.collectAsState()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -72,7 +79,7 @@ fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) 
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp,vertical = 16.dp)
+                    .padding(horizontal = 16.dp,vertical = 4.dp)
             ) {
                 Row(
                     modifier = modifier
@@ -101,7 +108,7 @@ fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) 
                                 color = P300,
                             )
                             Text(
-                                text = "Asmaa Dosuky",
+                                text = name,
                                 style = AppTypography.titleSemiBold,
                             )
 
@@ -170,8 +177,21 @@ fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) 
 
             }
         }
-        RecentTransactions(name = name, date = recentTransactions[2], amount = "500", status = "Received" )
 
+
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 80.dp)
+                .background(color = G0)
+        ) {
+
+            items(transactions.size) {item->
+                RecentTransactions(name = transactions[item].destinationName, date = transactions[item].transactionDate, amount = transactions[item].amount.toString()
+                    , status = transactions[item].status )
+            }
+        }
 
     }
 }
@@ -179,15 +199,6 @@ fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) 
 @Composable
 fun RecentTransactions(name: String, date: String, amount: String, status:String, modifier: Modifier = Modifier) {
 
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 60.dp)
-            .background(color = G0)
-    ) {
-
-        items(20) {
             Row(modifier = modifier
                 .fillMaxSize()
                 .padding(horizontal = 8.dp, vertical = 16.dp),
@@ -227,8 +238,8 @@ fun RecentTransactions(name: String, date: String, amount: String, status:String
                 thickness = 1.dp,
                 color = G40,
             )
-        }
-    }
+
+
 
 
 }
