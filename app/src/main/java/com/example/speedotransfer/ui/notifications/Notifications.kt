@@ -20,6 +20,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.speedotransfer.R
@@ -40,9 +43,12 @@ import com.example.speedotransfer.ui.theme.Login
 import com.example.speedotransfer.ui.theme.P300
 import com.example.speedotransfer.ui.theme.P50
 import com.example.speedotransfer.ui.theme.P75
+import com.example.speedotransfer.viewmodel.TransactionsViewModel
 
 @Composable
-fun NotificationsScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+fun NotificationsScreen(navController: NavHostController, transactionsViewModel: TransactionsViewModel= viewModel(
+), modifier: Modifier = Modifier) {
+    val transactionsResponse by transactionsViewModel.transactions.collectAsState()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -84,8 +90,8 @@ fun NotificationsScreen(navController: NavHostController, modifier: Modifier = M
 
             }
             LazyColumn {
-             items(6) {
-                 NotificationCard(moneyReceived = "500", date = "12 Sep 2024", time = "11:00 AM", name = "Omar Mohamed")
+             items(transactionsResponse.size) {item->
+                 NotificationCard(money = transactionsResponse[item].amount.toString(), date = transactionsResponse[item].transactionDate,status= transactionsResponse[item].status ,name =if (transactionsResponse[item].status == "SEND") transactionsResponse[item].destinationName else transactionsResponse[item].sourceName)
 
              }
             }
@@ -97,7 +103,7 @@ fun NotificationsScreen(navController: NavHostController, modifier: Modifier = M
 
 
 @Composable
-fun NotificationCard(moneyReceived: String, date: String, time: String, name: String, modifier: Modifier = Modifier) {
+fun NotificationCard(money: String, date: String,status:String,  name: String, modifier: Modifier = Modifier) {
 
     Card(
         colors = CardDefaults.cardColors(
@@ -132,13 +138,13 @@ fun NotificationCard(moneyReceived: String, date: String, time: String, name: St
 
                 Text(text = "Received Transactions", style = AppTypography.bodyMedium)
                 Text(
-                    text = "You have received $moneyReceived EGP from $name 1234xxxx",
+                    text = "You have $status $money EGP ${if(status=="SEND") "to" else "from" } $name",
                     style = AppTypography.bodyLarge,
                     textAlign = TextAlign.Start,
                     color = G700
                 )
                 Text(
-                    text = "$date $time ",
+                    text = date,
                     style = AppTypography.bodyLarge,
                     color = G100,
                     textAlign = TextAlign.Start

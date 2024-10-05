@@ -82,7 +82,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AmontScreen(navController: NavHostController, favouritesViewModel: FavouritesViewModel=viewModel(), modifier: Modifier = Modifier) {
+fun AmontScreen(navController: NavHostController,customerAccountNumber: String, favouritesViewModel: FavouritesViewModel=viewModel(), modifier: Modifier = Modifier) {
+    favouritesViewModel.getFavourite(customerAccountNumber)
     val favourites by favouritesViewModel.favourites.collectAsState()
 
     var amountSent = rememberSaveable {
@@ -272,7 +273,7 @@ fun AmontScreen(navController: NavHostController, favouritesViewModel: Favourite
 
         Button(
             enabled = amountSent.value.isNotBlank() && recipientName.value.isNotBlank() && recipientAccount.value.isNotBlank(),
-            onClick = { navController.navigate("${Route.CONFIRMATION}/${amountSent.value}/${recipientName.value}/${recipientAccount.value}") }, modifier = modifier
+            onClick = { navController.navigate("${Route.CONFIRMATION}/${amountSent.value}/${recipientName.value}/${recipientAccount.value}/${customerAccountNumber}") }, modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .height(51.dp),
@@ -372,5 +373,5 @@ fun FavouritesBottomSheet(favourites: List<FavouriteResponse>, recipientName: Mu
 @Preview
 @Composable
 private fun AmountScreenPreview() {
-    AmontScreen(navController = rememberNavController())
+    AmontScreen(navController = rememberNavController(),customerAccountNumber = "123456789")
 }

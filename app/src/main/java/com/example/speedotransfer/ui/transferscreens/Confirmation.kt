@@ -1,5 +1,10 @@
 package com.example.speedotransfer.ui.transferscreens
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -41,10 +46,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.speedotransfer.MainActivity
 import com.example.speedotransfer.R
 import com.example.speedotransfer.model.Transfer
 import com.example.speedotransfer.ui.navigation.Route
@@ -60,12 +68,15 @@ import com.example.speedotransfer.ui.theme.S400
 import com.example.speedotransfer.viewmodel.TransferViewModel
 
 @Composable
-fun ConfirmationScreen(navController: NavHostController, amountSent:String, recipientName:String, recipientAccount:String, transferViewModel: TransferViewModel =viewModel(), modifier: Modifier = Modifier) {
+fun ConfirmationScreen(navController: NavHostController, amountSent:String, recipientName:String, recipientAccount:String,customerAccountNumber:String, transferViewModel: TransferViewModel =viewModel(), modifier: Modifier = Modifier) {
     val transferResponse by transferViewModel.transferResponse.collectAsState()
     val context = LocalContext.current
     transferResponse?.let {
-        if(it.status=="ACCEPTED")
-            navController.navigate("${Route.PAYMENT}/${amountSent}/${recipientName}/${recipientAccount}")
+        if(it.status=="ACCEPTED") {
+            navController.navigate("${Route.PAYMENT}/${amountSent}/${recipientName}/${recipientAccount}/${customerAccountNumber}")
+            createNotificationChannel(context)
+            sendNotification(context,"Transfer Successful","Your transfer was successful")
+        }
         else
             Toast.makeText(context, "Transfer failed please try again", Toast.LENGTH_LONG).show()
 
@@ -308,9 +319,38 @@ fun ConfirmationScreen(navController: NavHostController, amountSent:String, reci
         Spacer(modifier = modifier.height(58.dp))
     }
 }
+fun createNotificationChannel(context: Context){
+    val channel = NotificationChannel("1","Transfer Notifications",NotificationManager.IMPORTANCE_DEFAULT).apply {
+        description="Notification for successful transfers"
+    }
+    val notificationManager=context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    notificationManager.createNotificationChannel(channel)
+
+}
+
+fun sendNotification(context: Context,notificationTitle:String,notificationBody:String){
+    val intent = Intent(context, MainActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+    val pendingIntent = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_IMMUTABLE)
+
+    val notificationBuilder= NotificationCompat.Builder(context,"1")
+        .setSmallIcon(R.drawable.group_16)
+        .setContentTitle(notificationTitle)
+        .setContentText(notificationBody)
+        .setContentIntent(pendingIntent)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setAutoCancel(true)
+
+    val notificationManager=context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.notify(1,notificationBuilder.build())
+
+
+}
 
 @Preview
 @Composable
 private fun ConfirmationScreenPreview() {
-    ConfirmationScreen(navController = rememberNavController(),"1000","Omar Khaled","123456789789")
+    ConfirmationScreen(navController = rememberNavController(),"1000","Omar Khaled","123456789789","123456789789")
 }

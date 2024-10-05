@@ -60,7 +60,7 @@ import com.example.speedotransfer.ui.theme.S400
 import com.example.speedotransfer.viewmodel.FavouritesViewModel
 
 @Composable
-fun PaymentScreen(navController: NavHostController,amountSent:String,recipientName:String,recipientAccount:String,favouritesViewModel:FavouritesViewModel=viewModel(), modifier: Modifier = Modifier) {
+fun PaymentScreen(navController: NavHostController,amountSent:String,recipientName:String,recipientAccount:String,customerAccountNumber:String,favouritesViewModel:FavouritesViewModel=viewModel(), modifier: Modifier = Modifier) {
     val addToFavouriteResponse by favouritesViewModel.addToFavouritesResponse.collectAsState()
     val context = LocalContext.current
     addToFavouriteResponse?.let {
@@ -285,7 +285,7 @@ fun PaymentScreen(navController: NavHostController,amountSent:String,recipientNa
         Spacer(modifier = modifier.height(16.dp))
         TextButton(
             onClick = {
-                favouritesViewModel.addToFavourites(AddFavourites(recipientAccount,recipientAccount))
+                favouritesViewModel.addToFavourites(AddFavourites(customerAccountNumber,recipientAccount))
             },
             modifier = modifier
                 .fillMaxWidth()
@@ -304,7 +304,7 @@ fun PaymentScreen(navController: NavHostController,amountSent:String,recipientNa
 @Preview
 @Composable
 private fun PaymentScreenPreview() {
-    PaymentScreen(rememberNavController(),"10000","Omar Khaled","12312345678")
+    PaymentScreen(rememberNavController(),"10000","Omar Khaled","12312345678","12312345678")
     
 }
 

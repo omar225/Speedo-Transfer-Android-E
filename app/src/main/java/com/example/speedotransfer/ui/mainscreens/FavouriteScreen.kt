@@ -66,7 +66,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouriteScreen(navController: NavHostController, favouritesViewModel: FavouritesViewModel = viewModel(), modifier: Modifier = Modifier) {
+fun FavouriteScreen(navController: NavHostController,accountNumber: String , favouritesViewModel: FavouritesViewModel = viewModel(), modifier: Modifier = Modifier) {
+    favouritesViewModel.getFavourite(accountNumber )
     val favourites by favouritesViewModel.favourites.collectAsState()
     val deleteFavouriteResponse by favouritesViewModel.deleteFavouriteResponse.collectAsState()
     val context = LocalContext.current
@@ -271,7 +272,7 @@ fun FavouriteScreen(navController: NavHostController, favouritesViewModel: Favou
 @Preview
 @Composable
 private fun FavouriteScreenPreview() {
-    FavouriteScreen(rememberNavController())
+    FavouriteScreen(rememberNavController(),"")
 
     
 }

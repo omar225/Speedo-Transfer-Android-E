@@ -53,12 +53,8 @@ import com.example.speedotransfer.ui.theme.P400
 import com.example.speedotransfer.viewmodel.TransactionsViewModel
 
 @Composable
-fun HomeScreen(navController: NavHostController, transactonViewModel: TransactionsViewModel=viewModel(), modifier: Modifier = Modifier) {
-    val name = "Abdelrahman Ashraf"
-    val name2 = "Omar Mohamed"
-    val currentBalance = "100000EGP"
-    val recentTransactions =
-        listOf("Ahmed Mohamed", "Visa. Master Card. 1234", "Today 11:00", "500EGP")
+fun HomeScreen(navController: NavHostController, customerName: String ="Abdelrahman Ashraf" ,currentBalance: String = "100000EGP", accountNumber: String = "123456789",transactonViewModel: TransactionsViewModel=viewModel(), modifier: Modifier = Modifier) {
+
 
     val transactions by transactonViewModel.transactions.collectAsState()
 
@@ -95,7 +91,7 @@ fun HomeScreen(navController: NavHostController, transactonViewModel: Transactio
                                 .background(color = G40, shape = CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
-                            InitialsIcon(name)
+                            InitialsIcon(customerName)
                         }
                         Column(
                             verticalArrangement = Arrangement.SpaceBetween,
@@ -108,7 +104,7 @@ fun HomeScreen(navController: NavHostController, transactonViewModel: Transactio
                                 color = P300,
                             )
                             Text(
-                                text = name,
+                                text = customerName,
                                 style = AppTypography.titleSemiBold,
                             )
 

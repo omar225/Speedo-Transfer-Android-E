@@ -1,7 +1,9 @@
 package com.example.speedotransfer.model
 
 import com.example.speedotransfer.constants.Constants.BALANCE_ENDPOINT
+import com.example.speedotransfer.constants.Constants.DELETE_FAVORITES_ENDPOINT
 import com.example.speedotransfer.constants.Constants.FAVORITES_ENDPOINT
+import com.example.speedotransfer.constants.Constants.GET_CUSTOMER_BY_EMAIL_ENDPOINT
 import com.example.speedotransfer.constants.Constants.LOGIN_ENDPOINT
 import com.example.speedotransfer.constants.Constants.REGISTRATION_ENDPOINT
 import com.example.speedotransfer.constants.Constants.TRANSACTIONS_ENDPOINT
@@ -44,8 +46,13 @@ interface AppAPICallable {
         accountNumber: String
     ): List<FavouriteResponse>
 
+    @GET(GET_CUSTOMER_BY_EMAIL_ENDPOINT)
+    suspend fun getCustomer(
+       @Path("customerEmail") customerEmail: String
+    ): CustomerDTO
 
-    @DELETE(FAVORITES_ENDPOINT)
+
+    @DELETE(DELETE_FAVORITES_ENDPOINT)
     suspend fun deleteFavorites(@Path("id") id: Long): DeleteFavouriteResponse
 
 

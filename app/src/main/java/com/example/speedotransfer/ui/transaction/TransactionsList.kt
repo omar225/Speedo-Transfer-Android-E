@@ -52,9 +52,11 @@ import com.example.speedotransfer.viewmodel.TransactionsViewModel
 @Composable
 fun TransactionHistory(
     navController: NavHostController,
+    accountNumber: String = "1234567890",
     transactionViewModel: TransactionsViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
+    transactionViewModel.getTransactions(accountNumber)
     val transactions by transactionViewModel.transactions.collectAsState()
 
     Column(
@@ -139,7 +141,7 @@ fun TransactionHistory(
                         Column(modifier = modifier.padding(start = 16.dp)) {
 
                             Text(
-                                text = if (transactions[item].status == "Send") transactions[item].destinationName else transactions[item].sourceName,
+                                text = if (transactions[item].status == "SEND") transactions[item].destinationName else transactions[item].sourceName,
                                 style = AppTypography.bodyLarge
                             )
                             Text(

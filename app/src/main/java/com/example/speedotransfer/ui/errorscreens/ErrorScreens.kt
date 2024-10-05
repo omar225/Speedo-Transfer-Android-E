@@ -179,5 +179,5 @@ fun ErrorServer(modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun ErrorConnectionPreview() {
-    ErrorConnection(rememberNavController())
+    ErrorServer()
 }

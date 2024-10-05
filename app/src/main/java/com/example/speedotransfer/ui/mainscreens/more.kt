@@ -56,7 +56,7 @@ import com.example.speedotransfer.ui.theme.P50
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,logout:()->Unit) {
+fun MoreScreen(navController: NavHostController,accountNumber:String, modifier: Modifier = Modifier,logout:()->Unit) {
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -246,7 +246,7 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
                         color = G200
                     )
                 }
-                IconButton(onClick = { navController.navigate(Route.FAVOURITES) }){
+                IconButton(onClick = { navController.navigate("${Route.FAVOURITES}/${accountNumber}") }){
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
                         contentDescription = "Favourites",
@@ -377,7 +377,7 @@ fun MoreScreen(navController: NavHostController, modifier: Modifier = Modifier,l
 @Preview
 @Composable
 private fun MoreScreenPreview() {
-    MoreScreen(navController = rememberNavController(), logout = {})
+    MoreScreen(navController = rememberNavController(),"", logout = {})
 
 }
 

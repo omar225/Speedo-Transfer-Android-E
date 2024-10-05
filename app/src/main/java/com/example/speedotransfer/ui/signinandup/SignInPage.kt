@@ -1,6 +1,7 @@
 package com.example.speedotransfer.ui.signinandup
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -139,16 +140,29 @@ fun SignInFields(
     var email = remember { mutableStateOf("") }
     var password = remember { mutableStateOf("") }
 
-    val response by viewModelLogin.login.collectAsState()
-    LaunchedEffect(response) {
-        response?.let {
-            if (response?.status == "ACCEPTED")
-                navController.navigate(Route.MAINAPP)
+    val signinResponse by viewModelLogin.login.collectAsState()
+    val customerResponse by viewModelLogin.customerResponse.collectAsState()
+    LaunchedEffect(signinResponse) {
+        signinResponse?.let {
+            if (signinResponse?.status == "ACCEPTED")
+               viewModelLogin.getCustomer(email.value)
             else
                 Toast.makeText(navController.context, "Something went wrong", Toast.LENGTH_LONG)
                     .show()
         }
     }
+    LaunchedEffect(customerResponse) {
+        customerResponse?.let {
+            if (it.id != 0) {
+                viewModelLogin.saveCustomerData(it)
+                navController.navigate("${Route.MAINAPP}/${it.accounts[0].accountName}/${it.accounts[0].balance.toString()}/${it.accounts[0].accountNumber}")
+            }
+            else
+                Toast.makeText(navController.context, "Something went wrong", Toast.LENGTH_LONG)
+                    .show()
+        }
+    }
+
     Column {
         TextFields("Email", "Enter your email address", email, R.drawable.email, KeyboardType.Email)
 
@@ -177,7 +191,7 @@ fun SignInFields(
     }
 }
 
-@Composable
+/*@Composable
 fun TimeOut(
     navController: NavController,
     modifier: Modifier = Modifier
@@ -281,6 +295,6 @@ fun TimeOut(
         }
     }
 
-}
+}*/
 
 

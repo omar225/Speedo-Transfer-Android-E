@@ -11,7 +11,6 @@ import androidx.navigation.navArgument
 import com.example.speedotransfer.ui.signinandup.SecondSignUp
 import com.example.speedotransfer.ui.signinandup.SignIn
 import com.example.speedotransfer.ui.signinandup.SignUp
-import com.example.speedotransfer.ui.signinandup.TimeOut
 
 fun NavGraphBuilder.authGraph(navController: NavController, firstTime: Boolean, context: Context) {
     navigation(startDestination = Route.SIGNIN, route = Route.AUTH) {
@@ -33,7 +32,7 @@ fun NavGraphBuilder.authGraph(navController: NavController, firstTime: Boolean, 
             SecondSignUp(navController, name, email, password)
         }
         composable(route = Route.SIGNIN) { SignIn(navController, firstTime, context,) }
-        composable(route = Route.TIMEOUT) { TimeOut(navController) }
+        //composable(route = Route.TIMEOUT) { TimeOut(navController) }
     }
 }
 
